@@ -98,7 +98,7 @@ sims <- QPress::system.simulate(10000, SSWW)
 
 sims$total # total number of runs to produce x accepted runs
 sims$accepted # This should be the number specified by user in system.simulate
-sims$stable # sould always be the same as accepted?
+sims$stable # should be the same number as accepted?
 
 impact.barplot(sim = sims) # exploratory widget
 weight.density(sim = sims) # to produce density plots of edge weights for all the simulations
@@ -136,8 +136,8 @@ myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
     }
   }
   rownames(results) <- nodes
-  nodes <- nodes[c(12, 13, 27, 4, 31)] #this is where you specify the nodes of interest
-  results <- results[c(12, 13, 27, 4, 31),] #this is where you specify the nodes of interest
+  nodes <- nodes[c(17,2,13,24,4,27,32,11,10,31)] #this is where you specify the nodes of interest
+  results <- results[c(17,2,13,24,4,27,32,11,10,31),] #this is where you specify the nodes of interest
   lwidth <- max(strwidth(nodes,units="inches",cex=cex.axis))
   opar <- par(mai=c(0.5,lwidth+0.15,0.15,0.15)+0.2)
   barplot(t(results),horiz=T,las=1,border=F,col=pal,
@@ -148,19 +148,20 @@ myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
 # Standard slider plot of all response nodes, perturbing each in turn given the vector of perturbations (press):
 # windows()
 # To output to PDF
-Indiv_Perturb="PerturbationPlots.pdf"
-pdf(file=Indiv_Perturb)
+currentDate <- Sys.Date()
+Indiv_Perturb <- paste(currentDate,"_PerturbationPlots",".pdf",sep="")
+pdf(file = Indiv_Perturb)
 # For function
 opar <- par
 par(mfrow=c(2,2)) #This can be invoked for a 2x2 layout (better for simple (reduced vars) plot)
-for (i in 1:39) {
+for (i in 1:40) { #number of nodes in model
   #i=2
   #Set up desired directions of perturbations--based upon direction of press (-1,1)
-  #For all presses
-  press=c(-1,1,1,-1,1,-1,-1,-1,1,1,1,1,1,-1,1,1,1,1,1,-1,-1,1,-1,1,-1,1,1,-1,1,-1,-1,1,-1,1,1,1,1,1,1)
+  #For all presses (should have 1 per node)
+  press=c(1,1,-1,1,1,-1,-1,-1,1,1,1,1,1,1,1,1,1,1,-1,1,-1,1,1,1,-1,-1,1,-1,1,-1,1,1,-1,1,-1,-1,1,-1,-1,1)
   
   #length(press)
-  presses=diag(press, nrow=39, ncol=39)
+  presses=diag(press, nrow=40, ncol=40)
   perturb=presses[i,]
   
   perturb2=ifelse(perturb==1,"(Increase)","(Decrease)")
