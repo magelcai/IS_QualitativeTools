@@ -1,89 +1,19 @@
-source("./Documents/UW-PSI Postdoc/Qualitative Modeling Projects/IS_QualitativeTools/IS_QualitativeTools/dia.r")
-source("./Documents/UW-PSI Postdoc/Qualitative Modeling Projects/IS_QualitativeTools/IS_QualitativeTools/community.r")
-source("./Documents/UW-PSI Postdoc/Qualitative Modeling Projects/IS_QualitativeTools/IS_QualitativeTools/tk.r")
+#####
+# Network Analysis for Magel & Francis
+# Cross-IS ecosystem model
 
-#Analysis from Melbourne-Thomas et al 2012
+#QPress package is based on the analysis from Melbourne-Thomas et al 2012
 #https://wiley.figshare.com/articles/dataset/Supplement_1_Example_R_code_and_models_/3568107/1
 #https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/12-0207.1?casa_token=VHTR6o_DvQ8AAAAA%3A_vmeRY9Q0b_fiUK3YpRBnKSq5_q-armBNM4ik05kN15SkrRXWQL-uUfmJyENGHCm_gN0-VY8rh-amw
 
+# Load required packages
 library(QPress)
 library(tcltk2)
 library(XML)
 library(here)
 
-#Read model specification
-model <- QPress::model.dia("./Documents/UW-PSI Postdoc/Qualitative Modeling Projects/DiaExamples/macquarie.dia")
 
-
-## Examine unweighted adjacency matrix
-A <- adjacency.matrix(model)
-A
-
-## Function to generate the community matrix
-s <- community.sampler(model)
-
-## Function to check the validation condition
-press <- press.validate(model,
-                        perturb=c("1"=1),
-                        monitor=c("1"=1,"2"=-1))
-
-## Function to define the perturbation scenario
-impact <- press.impact(model,perturb=c("1"=-1,"2"=-1,"3"=-1))
-
-## Use 10000 simulations
-n.sims <- 10
-results <- 0
-i <- 0
-while(i < n.sims) {
-  
-  ## Randomly choose edges to retain
-  z <- s$select(runif(1))
-  ## Sample community matrix
-  W <- s$community()
-  
-  ## Check press condition and stability
-  if(!(press(W) && stable.community(W))) next
-  
-  ## Monitor impact post press
-  imp <- impact(W)
-  results <- results + outer(sign(imp),-1:1,'==')
-  i <- i+1
-}
-
-## Print results
-rownames(results) <- levels(model$From)
-colnames(results) <- c('-','0','+')
-results
-
-## Plot outcomes
-library(RColorBrewer)
-pal <- brewer.pal(n=5,"RdBu")[4:2]
-opar <- par(mar=c(5,10,1,1)+0.1)
-prop <- results/rowSums(results)
-r <- colSums(t(prop)*(-1:1))
-barplot(t(prop[order(r),]),
-        horiz=T,cex.names=0.8,cex.axis=0.8,las=2,border=F,col=pal,xlab="Proportion")
-par(opar)
-
-
-
-model <- enforce.limitation(model)
-sims <- system.simulate(10,model,
-                        validators=list(
-                          press.validate(model,
-                                         perturb=c("Rats"=1),
-                                         monitor=c("Rats"=1)),
-                          press.validate(model,
-                                         perturb=c("Rats"=1),
-                                         monitor=c("Rabbits"=-1, "Tall tussock vegetation"=1))))
-
-impact.barplot(sim = sims)
-weight.density(sim = sims)
-
-
-######
-model <- QPress::model.dia("./Documents/UW-PSI Postdoc/Qualitative Modeling Projects/IS_QualitativeTools/IS_QualitativeTools/DiaModels/CombinedNetwork_9Dec2020_forQPress_simple.dia")
-model_full <- QPress::model.dia("./DiaModels/CombinedNetwork_16Dec2020_forQPress.dia")
+# Load the Stormwater/Wastewater Dia model
 SSWW <- QPress::model.dia("./DiaModels/SWWWNetwork_17Dec2020_forQPress_simpler.dia")
 
 
@@ -91,7 +21,7 @@ SSWW <- QPress::model.dia("./DiaModels/SWWWNetwork_17Dec2020_forQPress_simpler.d
 A <- adjacency.matrix(SSWW)
 A
 
-SSWW <- enforce.limitation(SSWW)
+SSWW <- enforce.limitation(SSWW) #I think this is redundant with the self-limiting edges in the Dia model
 
 sims <- QPress::system.simulate(10000, SSWW)
 
