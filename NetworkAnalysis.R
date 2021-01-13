@@ -28,8 +28,8 @@ mod <- enforce.limitation(mod) #I think this is redundant with the self-limiting
 sims <- readRDS("SSWW_Sims_20201218.rds")
 
 #If model simulation does not exist, simulate and save!
-
-sims <- QPress::system.simulate(100, mod)
+n_sims <- 1000 #number of accepted simulations requested
+sims <- QPress::system.simulate(n_sims, mod)
 
 
 sims$total # total number of runs to produce x accepted runs
@@ -45,13 +45,13 @@ sims$edges
 head(sims$w)
 mean(abs(sims$w))
 
-saveRDS(sims, "Sims_10_20210108.rds") 
+saveRDS(sims, file = paste("Sims_", n_sims, "_", Sys.Date(), ".rds", sep = "")) #"Sims_10_20210108.rds"
 
 ##################################################################################################
 ##################################################################################################
 
 # For generating plots that are not part of the QPress package, use code below
-# Some example code was provided by Ben Raymond
+# Example code was provided by Ben Raymond, but this came from K. Sobocinski
 
 # Extract the bits we need
 edges <- sims$edges
