@@ -14,16 +14,22 @@ library(here)
 
 
 # Load the Stormwater/Wastewater Dia model
-SSWW <- QPress::model.dia("./DiaModels/SWWWNetwork_17Dec2020_forQPress_simpler.dia")
+mod <- QPress::model.dia("./DiaModels/Network_12Jan2021_forQPress.dia")
 
 
 ## Examine unweighted adjacency matrix
-A <- adjacency.matrix(SSWW)
+A <- adjacency.matrix(mod)
 A
 
-SSWW <- enforce.limitation(SSWW) #I think this is redundant with the self-limiting edges in the Dia model
+mod <- enforce.limitation(mod) #I think this is redundant with the self-limiting edges in the Dia model
 
-sims <- QPress::system.simulate(10000, SSWW)
+
+#If model simulations already exist, load them
+sims <- readRDS("SSWW_Sims_20201218.rds")
+
+#If model simulation does not exist, simulate and save!
+
+sims <- QPress::system.simulate(100, mod)
 
 
 sims$total # total number of runs to produce x accepted runs
@@ -39,7 +45,7 @@ sims$edges
 head(sims$w)
 mean(abs(sims$w))
 
-
+saveRDS(sims, "Sims_10_20210108.rds") 
 
 ##################################################################################################
 ##################################################################################################
@@ -79,7 +85,7 @@ myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
 # windows()
 # To output to PDF
 currentDate <- Sys.Date()
-Indiv_Perturb <- paste(currentDate,"_PerturbationPlots",".pdf",sep="")
+Indiv_Perturb <- paste(currentDate,"_PerturbationPlots_v2",".pdf",sep="")
 pdf(file = Indiv_Perturb)
 # For function
 opar <- par
