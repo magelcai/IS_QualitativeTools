@@ -10,7 +10,7 @@
 library(QPress)
 library(tcltk2)
 library(XML)
-library(here)
+library(here) #folder management
 
 
 # Load the Stormwater/Wastewater Dia model
@@ -45,7 +45,8 @@ sims$edges
 head(sims$w)
 mean(abs(sims$w))
 
-saveRDS(sims, file = paste("Sims_", n_sims, "_", Sys.Date(), ".rds", sep = "")) #"Sims_10_20210108.rds"
+#save simulations
+saveRDS(sims, file = paste("Sims_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 
 ##################################################################################################
 ##################################################################################################
