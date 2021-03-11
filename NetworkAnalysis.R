@@ -14,7 +14,7 @@ library(here) #folder management
 
 
 # Load the Stormwater/Wastewater Dia model
-mod <- QPress::model.dia("./DiaModels/Network_12Jan2021_forQPress.dia")
+mod <- QPress::model.dia("./DiaModels/Network_13Jan2021_forQPress.dia")
 
 
 ## Examine unweighted adjacency matrix
@@ -28,7 +28,7 @@ mod <- enforce.limitation(mod) #I think this is redundant with the self-limiting
 sims <- readRDS("SSWW_Sims_20201218.rds")
 
 #If model simulation does not exist, simulate and save!
-n_sims <- 1000 #number of accepted simulations requested
+n_sims <- 10000 #number of accepted simulations requested
 sims <- QPress::system.simulate(n_sims, mod)
 
 
@@ -73,8 +73,8 @@ myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
     }
   }
   rownames(results) <- nodes
-  nodes <- nodes[c(17,2,13,24,4,27,32,11,10,31)] #this is where you specify the nodes of interest
-  results <- results[c(17,2,13,24,4,27,32,11,10,31),] #this is where you specify the nodes of interest
+  nodes <- nodes[c(16,22,4,26,32,10,9,31)] #this is where you specify the nodes of interest
+  results <- results[c(16,22,4,26,32,10,9,31),] #this is where you specify the nodes of interest
   lwidth <- max(strwidth(nodes,units="inches",cex=cex.axis))
   opar <- par(mai=c(0.5,lwidth+0.15,0.15,0.15)+0.2)
   barplot(t(results),horiz=T,las=1,border=F,col=pal,
@@ -86,19 +86,19 @@ myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
 # windows()
 # To output to PDF
 currentDate <- Sys.Date()
-Indiv_Perturb <- paste(currentDate,"_PerturbationPlots_v2",".pdf",sep="")
+Indiv_Perturb <- paste(currentDate,"_PerturbationPlots",".pdf",sep="")
 pdf(file = Indiv_Perturb)
 # For function
 opar <- par
 par(mfrow=c(2,2)) #This can be invoked for a 2x2 layout (better for simple (reduced vars) plot)
-for (i in 1:40) { #number of nodes in model
+for (i in 1:38) { #number of nodes in model
   #i=2
   #Set up desired directions of perturbations--based upon direction of press (-1,1)
   #For all presses (should have 1 per node)
-  press=c(1,1,-1,1,1,-1,-1,-1,1,1,1,1,1,1,1,1,1,1,-1,1,-1,1,1,1,-1,-1,1,-1,1,-1,1,1,-1,1,-1,-1,1,-1,-1,1)
+  press=c(1,1,-1,1,1,1,-1,1,1,1,1,1,1,1,1,1,1,-1,1,1,1,1,1,1,-1,1,1,-1,1,1,1,1,-1,-1,-1,-1,1,1)
   
   #length(press)
-  presses=diag(press, nrow=40, ncol=40)
+  presses=diag(press, nrow=38, ncol=38)
   perturb=presses[i,]
   
   perturb2=ifelse(perturb==1,"(Increase)","(Decrease)")
