@@ -14,13 +14,13 @@ library(here) #folder management
 
 
 # Load the Dia model
-mod <- QPress::model.dia("./DiaModels/InterJurWatershed_14Apr2021_forR.dia")
+mod <- QPress::model.dia("./DiaModels/InterJurWatershed_29Apr2021_forR.dia")
 
 
 ## Examine unweighted adjacency matrix
 A <- adjacency.matrix(mod)
 A
-write.csv(A, file = "InterJurWatershed_14Apr2021_forR_matrix.csv", row.names = FALSE) #save the matrix, ifn needed
+write.csv(A, file = "Model_AdjMatrix.csv", row.names = FALSE) #save the matrix, ifn needed
 
 mod <- enforce.limitation(mod) #I think this is redundant with the self-limiting edges in the Dia model
 
@@ -57,9 +57,10 @@ saveRDS(sims, file = paste("Sims_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 
 # Extract the bits we need
 edges <- sims$edges
+write.csv(edges, file = "Model_EdgesList.csv")
 As <- sims$A
 nodes <- node.labels(edges)
-write.csv(nodes, file = "InterJurWatershed_14Apr2021_forR_NodesList.csv")
+write.csv(nodes, file = "Model_NodesList.csv")
 
 monitor <- c(rep(NA,length(nodes))) ## Don't enforce any required responses
 
@@ -76,8 +77,8 @@ myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
     }
   }
   rownames(results) <- nodes
-  nodes <- nodes[c(6, 8, 9, 5, 21, 10)] #this is where you specify the nodes of interest
-  results <- results[c(6, 8, 9, 5, 21, 10),] #this is where you specify the nodes of interest
+  nodes <- nodes[c(5, 20, 9, 8, 15, 7, 25)] #this is where you specify the nodes of interest
+  results <- results[c(5, 20, 9, 8, 15, 7, 25),] #this is where you specify the nodes of interest
   lwidth <- max(strwidth(nodes,units="inches",cex=cex.axis))
   opar <- par(mai=c(0.5,lwidth+0.15,0.15,0.15)+0.2)
   barplot(t(results),horiz=T,las=1,border=F,col=pal,
@@ -94,14 +95,14 @@ pdf(file = Indiv_Perturb)
 # For function
 opar <- par
 par(mfrow=c(2,2)) #This can be invoked for a 2x2 layout (better for simple (reduced vars) plot)
-for (i in 1:34) { #number of nodes in model
+for (i in 1:32) { #number of nodes in model
   #i=2
   #Set up desired directions of perturbations--based upon direction of press (-1,1)
   #For all presses (should have 1 per node)
-  press=c(1, -1, 1, -1, 1, 1, -1, 1, 1, 1, 1, -1, 1, 1, 1, 1, 1, 1, 1, -1, 1, 1, -1, -1, 1, -1, -1, -1, -1, -1, -1, 1, -1, 1)
+  press=c(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)
   
   #length(press)
-  presses=diag(press, nrow=34, ncol=34)
+  presses=diag(press, nrow=32, ncol=32)
   perturb=presses[i,]
   
   perturb2=ifelse(perturb==1,"(Increase)","(Decrease)")
