@@ -26,7 +26,7 @@ mod <- enforce.limitation(mod) #I think this is redundant with the self-limiting
 
 
 #If model simulations already exist, load them
-sims <- readRDS("SSWW_Sims_20201218.rds")
+sims <- readRDS("Sims_10000_2021-04-30.rds")
 
 #If model simulation does not exist, simulate and save!
 n_sims <- 10000 #number of accepted simulations requested
@@ -68,7 +68,7 @@ monitor <- c(rep(NA,length(nodes))) ## Don't enforce any required responses
 #Call specific nodes of interest
 #To show only a subset of node responses (e.g. 12, 13, 27, 4, 31), run this instead of standard plot:
 myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
-  pal <- c("firebrick4", "#808080", "lightblue")
+  pal <- c("lightblue", "#808080", "tomato3")  #Kathryn's colors: c("firebrick4", "#808080", "lightblue")
   results <- matrix(0,length(nodes),3)
   for(i in 1:length(As)) {
     impact <- signum(drop(As[[i]]%*%perturb),epsilon=epsilon)
@@ -77,8 +77,8 @@ myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
     }
   }
   rownames(results) <- nodes
-  nodes <- nodes[c(5, 20, 9, 8, 15, 7, 25)] #this is where you specify the nodes of interest
-  results <- results[c(5, 20, 9, 8, 15, 7, 25),] #this is where you specify the nodes of interest
+  nodes <- nodes[c(15, 8, 7, 24, 19, 5, 9)] #this is where you specify the nodes of interest
+  results <- results[c(15, 8, 7, 24, 19, 5, 9),] #this is where you specify the nodes of interest
   lwidth <- max(strwidth(nodes,units="inches",cex=cex.axis))
   opar <- par(mai=c(0.5,lwidth+0.15,0.15,0.15)+0.2)
   barplot(t(results),horiz=T,las=1,border=F,col=pal,
@@ -90,7 +90,7 @@ myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
 # windows()
 # To output to PDF
 currentDate <- Sys.Date()
-Indiv_Perturb <- paste(currentDate,"_PerturbationPlots",".pdf",sep="")
+Indiv_Perturb <- paste(currentDate,"_PerturbationPlots_neg",".pdf",sep="")
 pdf(file = Indiv_Perturb)
 # For function
 opar <- par
@@ -99,7 +99,7 @@ for (i in 1:32) { #number of nodes in model
   #i=2
   #Set up desired directions of perturbations--based upon direction of press (-1,1)
   #For all presses (should have 1 per node)
-  press=c(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)
+  press=c(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1) #pos: c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
   
   #length(press)
   presses=diag(press, nrow=32, ncol=32)
