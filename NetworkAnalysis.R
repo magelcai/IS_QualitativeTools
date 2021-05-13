@@ -14,7 +14,7 @@ library(here) #folder management
 
 
 # Load the Dia model
-mod <- QPress::model.dia("./DiaModels/InterJurWatershed_29Apr2021_forR.dia")
+mod <- QPress::model.dia("./DiaModels/InterJurWatershed_13May2021_forR.dia")
 
 
 ## Examine unweighted adjacency matrix
@@ -77,8 +77,8 @@ myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
     }
   }
   rownames(results) <- nodes
-  nodes <- nodes[c(15, 8, 7, 24, 19, 5, 9)] #this is where you specify the nodes of interest
-  results <- results[c(15, 8, 7, 24, 19, 5, 9),] #this is where you specify the nodes of interest
+  nodes <- nodes[c(7,24,15,8,14,9,5,19,3,11,23,27)] #this is where you specify the nodes of interest
+  results <- results[c(7,24,15,8,14,9,5,19,3,11,23,27),] #this is where you specify the nodes of interest
   lwidth <- max(strwidth(nodes,units="inches",cex=cex.axis))
   opar <- par(mai=c(0.5,lwidth+0.15,0.15,0.15)+0.2)
   barplot(t(results),horiz=T,las=1,border=F,col=pal,
@@ -90,7 +90,7 @@ myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
 # windows()
 # To output to PDF
 currentDate <- Sys.Date()
-Indiv_Perturb <- paste(currentDate,"_PerturbationPlots_neg",".pdf",sep="")
+Indiv_Perturb <- paste(currentDate,"_PerturbationPlots_pos",".pdf",sep="")
 pdf(file = Indiv_Perturb)
 # For function
 opar <- par
@@ -99,8 +99,8 @@ for (i in 1:32) { #number of nodes in model
   #i=2
   #Set up desired directions of perturbations--based upon direction of press (-1,1)
   #For all presses (should have 1 per node)
-  press=c(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1) #pos: c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
-  
+  press=c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1) #pos: c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
+                                                                                                           #neg: c(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)
   #length(press)
   presses=diag(press, nrow=32, ncol=32)
   perturb=presses[i,]
