@@ -14,7 +14,7 @@ library(here) #folder management
 
 
 # Load the Dia model
-mod <- QPress::model.dia("./DiaModels/InterJurWatershed_13May2021_forR.dia")
+mod <- QPress::model.dia("./DiaModels/InterJurWatershed_14May2021_forR.dia")
 
 
 ## Examine unweighted adjacency matrix
@@ -26,7 +26,7 @@ mod <- enforce.limitation(mod) #I think this is redundant with the self-limiting
 
 
 #If model simulations already exist, load them
-sims <- readRDS("Sims_10000_2021-04-30.rds")
+sims <- readRDS("Sims_10000_2021-05-13.rds")
 
 #If model simulation does not exist, simulate and save!
 n_sims <- 10000 #number of accepted simulations requested
@@ -77,8 +77,8 @@ myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
     }
   }
   rownames(results) <- nodes
-  nodes <- nodes[c(7,24,15,8,14,9,5,19,3,11,23,27)] #this is where you specify the nodes of interest
-  results <- results[c(7,24,15,8,14,9,5,19,3,11,23,27),] #this is where you specify the nodes of interest
+  nodes <- nodes[c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33)] #this is where you specify the nodes of interest
+  results <- results[c(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33),] #this is where you specify the nodes of interest
   lwidth <- max(strwidth(nodes,units="inches",cex=cex.axis))
   opar <- par(mai=c(0.5,lwidth+0.15,0.15,0.15)+0.2)
   barplot(t(results),horiz=T,las=1,border=F,col=pal,
@@ -93,16 +93,17 @@ currentDate <- Sys.Date()
 Indiv_Perturb <- paste(currentDate,"_PerturbationPlots_pos",".pdf",sep="")
 pdf(file = Indiv_Perturb)
 # For function
-opar <- par
-par(mfrow=c(2,2)) #This can be invoked for a 2x2 layout (better for simple (reduced vars) plot)
-for (i in 1:32) { #number of nodes in model
+#opar <- par
+#par(mfrow=c(2,2)) #This can be invoked for a 2x2 layout (better for simple (reduced vars) plot)
+for (i in 1:33) { #number of nodes in model
   #i=2
   #Set up desired directions of perturbations--based upon direction of press (-1,1)
   #For all presses (should have 1 per node)
-  press=c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1) #pos: c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
-                                                                                                           #neg: c(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)
+  press = c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
+      #pos: c(1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1)
+      #neg: c(-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1)
   #length(press)
-  presses=diag(press, nrow=32, ncol=32)
+  presses=diag(press, nrow=33, ncol=33)
   perturb=presses[i,]
   
   perturb2=ifelse(perturb==1,"(Increase)","(Decrease)")
