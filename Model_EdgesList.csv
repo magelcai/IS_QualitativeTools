@@ -4,115 +4,115 @@
 "3","New development","Floodplains",0,"N",3
 "4","Floodplains","Summer flows",0,"P",4
 "5","Redevelopment","Wastewater",0,"P",5
-"6","Transportation corridors","Urban runoff",0,"P",6
-"7","Urban runoff","Wastewater",0,"P",7
-"8","Floodplains","Temperature",0,"N",8
-"9","Urban runoff","Temperature",0,"P",9
-"10","New development","Agriculture",0,"N",10
-"11","New development","Transportation corridors",0,"P",11
-"12","New development","Rural runoff",0,"P",12
-"13","Urban runoff","Toxics",0,"P",13
-"14","Wastewater","Nutrients",0,"P",14
-"15","Temperature","Stratification",0,"P",15
-"16","B-IBI","Juvenile Chinook",0,"P",16
-"17","Floodplains","B-IBI",0,"P",17
-"18","Temperature","Sub adult Chinook",0,"N",18
-"19","Bacteria","Juvenile Chinook",0,"N",19
-"20","Toxics","Juvenile Chinook",0,"N",20
-"21","Floodplains","Juvenile Chinook",0,"P",21
-"22","Summer flows","Juvenile Chinook",0,"P",22
-"23","Nutrients","Algal blooms",0,"P",23
-"24","Summer flows","Stratification",0,"N",24
-"25","Edible shellfish","Sense of place",0,"P",25
-"26","Herring","Sub adult Chinook",0,"P",26
-"27","Chinook spawners","Orcas (SRKW)",0,"P",27
-"28","Sub adult Chinook","Pinnipeds",0,"P",28
-"29","Zooplankton","Sub adult Chinook",0,"P",29
-"30","Herring","Pinnipeds",0,"P",30
-"31","Zooplankton","Herring",0,"P",31
-"32","Phytoplankton","Zooplankton",0,"P",32
-"33","Algal blooms","Edible shellfish",0,"N",33
-"34","Temperature","Eelgrass",0,"N",34
-"35","Eelgrass","Sense of place",0,"P",35
-"36","Herring","Sense of place",0,"P",36
-"37","Orcas (SRKW)","Sense of place",0,"P",37
-"38","Chinook spawners","Sense of place",0,"P",38
-"39","Edible shellfish","Economic vitality",0,"P",39
-"40","Nutrients","Phytoplankton",0,"P",40
-"41","Bacteria","Edible shellfish",0,"N",41
-"42","Toxics","Orcas (SRKW)",0,"N",42
-"43","Toxics","Herring",0,"N",43
-"44","Temperature","Phytoplankton",0,"P",44
-"45","Dissolved oxygen","Zooplankton",0,"P",45
-"46","Forestry","Economic vitality",0,"P",46
-"47","Agriculture","Economic vitality",0,"P",47
-"48","Chinook spawners","Economic vitality",0,"P",48
-"49","Orcas (SRKW)","Economic vitality",0,"P",49
-"50","Agriculture","Sense of place",0,"P",50
-"51","Forestry","Sense of place",0,"P",51
-"52","Temperature","B-IBI",0,"N",52
-"53","Greening","Summer flows",0,"P",53
-"54","Eelgrass","Dissolved oxygen",0,"P",54
-"55","Stratification","Algal blooms",0,"P",55
-"56","Toxics","Human health",0,"N",56
-"57","Greening","Human health",0,"P",57
-"58","Greening","Urban runoff",0,"N",58
-"59","Toxics","Edible shellfish",0,"N",59
-"60","Greening","Temperature",0,"N",60
-"61","Temperature","Dissolved oxygen",0,"N",61
-"62","Temperature","Algal blooms",0,"P",62
-"63","Eelgrass","Sub adult Chinook",0,"P",63
-"64","New development","Riparian habitat",0,"N",64
-"65","Riparian habitat","Temperature",0,"N",65
-"66","Agriculture","Riparian habitat",0,"N",66
-"67","Edible shellfish","Human health",0,"P",67
-"68","Algal blooms","Economic vitality",0,"N",68
-"69","Algal blooms","Human health",0,"N",69
-"70","Algal blooms","Sense of place",0,"N",70
-"71","New development","Sense of place",0,"N",71
-"72","Transportation corridors","Sense of place",0,"N",72
-"73","Redevelopment","Sense of place",0,"N",73
-"74","Economic vitality","Human health",0,"P",74
-"75","Bacteria","Human health",0,"N",75
-"76","Sense of place","Human health",0,"P",76
-"77","Redevelopment","Urban runoff",0,"N",77
-"78","Transportation corridors","Human health",0,"N",78
-"79","Nutrients","B-IBI",0,"N",79
-"80","Toxics","B-IBI",0,"N",80
-"81","Rural runoff","Bacteria",0,"P",81
-"82","Riparian habitat","B-IBI",0,"P",82
-"83","Toxics","Pinnipeds",0,"N",83
-"84","Transportation corridors","Rural runoff",0,"P",84
-"85","Rural runoff","Nutrients",0,"P",85
-"86","Wastewater","Bacteria",0,"P",86
-"87","Urban runoff","Human health",0,"N",87
-"88","Redevelopment","Toxics",0,"N",88
-"89","Floodplains","Rural runoff",0,"N",89
-"90","Agriculture","Summer flows",0,"N",90
-"91","Agriculture","Rural runoff",0,"P",91
-"92","Wastewater","Toxics",0,"P",92
-"93","Summer flows","B-IBI",0,"P",93
-"94","Septics","Bacteria",0,"P",94
-"95","New development","Septics",0,"P",95
-"96","Septics","Nutrients",0,"P",96
-"97","Chinook spawners","Juvenile Chinook",0,"P",97
-"98","Sub adult Chinook","Chinook spawners",0,"P",98
-"99","Juvenile Chinook","Sub adult Chinook",0,"P",99
-"100","Phytoplankton","Eelgrass",0,"N",100
-"101","Algal blooms","Dissolved oxygen",0,"N",101
-"102","Summer flows","Riparian habitat",0,"P",102
-"103","Riparian habitat","Rural runoff",0,"N",103
-"104","Temperature","Juvenile Chinook",0,"N",104
-"105","Toxics","Eelgrass",0,"N",105
+"6","Urban runoff","Wastewater",0,"P",6
+"7","Floodplains","Temperature",0,"N",7
+"8","Urban runoff","Temperature",0,"P",8
+"9","New development","Agriculture",0,"N",9
+"10","New development","Transportation corridors",0,"P",10
+"11","New development","Rural runoff",0,"P",11
+"12","Urban runoff","Toxics",0,"P",12
+"13","Wastewater","Nutrients",0,"P",13
+"14","Temperature","Stratification",0,"P",14
+"15","B-IBI","Juv. Chinook (freshwater)",0,"P",15
+"16","Floodplains","B-IBI",0,"P",16
+"17","Temperature","Juv. Chinook (estuarine)",0,"N",17
+"18","Bacteria","Juv. Chinook (freshwater)",0,"N",18
+"19","Toxics","Juv. Chinook (freshwater)",0,"N",19
+"20","Floodplains","Juv. Chinook (freshwater)",0,"P",20
+"21","Summer flows","Juv. Chinook (freshwater)",0,"P",21
+"22","Nutrients","Algal blooms",0,"P",22
+"23","Summer flows","Stratification",0,"N",23
+"24","Edible shellfish","Sense of place",0,"P",24
+"25","Herring","Juv. Chinook (estuarine)",0,"P",25
+"26","Chinook spawners","Orcas (SRKW)",0,"P",26
+"27","Juv. Chinook (estuarine)","Pinnipeds",0,"P",27
+"28","Zooplankton","Juv. Chinook (estuarine)",0,"P",28
+"29","Herring","Pinnipeds",0,"P",29
+"30","Zooplankton","Herring",0,"P",30
+"31","Phytoplankton","Zooplankton",0,"P",31
+"32","Algal blooms","Edible shellfish",0,"N",32
+"33","Temperature","Eelgrass",0,"N",33
+"34","Eelgrass","Sense of place",0,"P",34
+"35","Herring","Sense of place",0,"P",35
+"36","Orcas (SRKW)","Sense of place",0,"P",36
+"37","Chinook spawners","Sense of place",0,"P",37
+"38","Edible shellfish","Economic vitality",0,"P",38
+"39","Nutrients","Phytoplankton",0,"P",39
+"40","Bacteria","Edible shellfish",0,"N",40
+"41","Toxics","Orcas (SRKW)",0,"N",41
+"42","Toxics","Herring",0,"N",42
+"43","Temperature","Phytoplankton",0,"P",43
+"44","Dissolved oxygen","Zooplankton",0,"P",44
+"45","Forestry","Economic vitality",0,"P",45
+"46","Agriculture","Economic vitality",0,"P",46
+"47","Chinook spawners","Economic vitality",0,"P",47
+"48","Orcas (SRKW)","Economic vitality",0,"P",48
+"49","Agriculture","Sense of place",0,"P",49
+"50","Forestry","Sense of place",0,"P",50
+"51","Temperature","B-IBI",0,"N",51
+"52","Greening","Summer flows",0,"P",52
+"53","Eelgrass","Dissolved oxygen",0,"P",53
+"54","Stratification","Algal blooms",0,"P",54
+"55","Toxics","Human health",0,"N",55
+"56","Greening","Human health",0,"P",56
+"57","Greening","Urban runoff",0,"N",57
+"58","Toxics","Edible shellfish",0,"N",58
+"59","Greening","Temperature",0,"N",59
+"60","Temperature","Dissolved oxygen",0,"N",60
+"61","Temperature","Algal blooms",0,"P",61
+"62","Eelgrass","Juv. Chinook (estuarine)",0,"P",62
+"63","New development","Riparian habitat",0,"N",63
+"64","Riparian habitat","Temperature",0,"N",64
+"65","Agriculture","Riparian habitat",0,"N",65
+"66","Edible shellfish","Human health",0,"P",66
+"67","Algal blooms","Economic vitality",0,"N",67
+"68","Algal blooms","Human health",0,"N",68
+"69","Algal blooms","Sense of place",0,"N",69
+"70","New development","Sense of place",0,"N",70
+"71","Transportation corridors","Sense of place",0,"N",71
+"72","Redevelopment","Sense of place",0,"N",72
+"73","Economic vitality","Human health",0,"P",73
+"74","Bacteria","Human health",0,"N",74
+"75","Sense of place","Human health",0,"P",75
+"76","Redevelopment","Urban runoff",0,"N",76
+"77","Transportation corridors","Human health",0,"N",77
+"78","Nutrients","B-IBI",0,"N",78
+"79","Toxics","B-IBI",0,"N",79
+"80","Rural runoff","Bacteria",0,"P",80
+"81","Riparian habitat","B-IBI",0,"P",81
+"82","Toxics","Pinnipeds",0,"N",82
+"83","Transportation corridors","Rural runoff",0,"P",83
+"84","Rural runoff","Nutrients",0,"P",84
+"85","Wastewater","Bacteria",0,"P",85
+"86","Urban runoff","Human health",0,"N",86
+"87","Redevelopment","Toxics",0,"N",87
+"88","Floodplains","Rural runoff",0,"N",88
+"89","Agriculture","Summer flows",0,"N",89
+"90","Agriculture","Rural runoff",0,"P",90
+"91","Wastewater","Toxics",0,"P",91
+"92","Summer flows","B-IBI",0,"P",92
+"93","Septics","Bacteria",0,"P",93
+"94","New development","Septics",0,"P",94
+"95","Septics","Nutrients",0,"P",95
+"96","Chinook spawners","Juv. Chinook (freshwater)",0,"P",96
+"97","Juv. Chinook (estuarine)","Chinook spawners",0,"P",97
+"98","Juv. Chinook (freshwater)","Juv. Chinook (estuarine)",0,"P",98
+"99","Phytoplankton","Eelgrass",0,"N",99
+"100","Algal blooms","Dissolved oxygen",0,"N",100
+"101","Summer flows","Riparian habitat",0,"P",101
+"102","Riparian habitat","Rural runoff",0,"N",102
+"103","Temperature","Juv. Chinook (freshwater)",0,"N",103
+"104","Toxics","Eelgrass",0,"N",104
+"105","Phytoplankton","Dissolved oxygen",0,"P",105
 "109","Summer flows","Floodplains",0,"P",4
-"116","Transportation corridors","New development",0,"P",11
-"131","Sub adult Chinook","Herring",0,"N",26
-"132","Orcas (SRKW)","Chinook spawners",0,"N",27
-"133","Pinnipeds","Sub adult Chinook",0,"N",28
-"134","Sub adult Chinook","Zooplankton",0,"N",29
-"135","Pinnipeds","Herring",0,"N",30
-"136","Herring","Zooplankton",0,"N",31
-"137","Zooplankton","Phytoplankton",0,"N",32
+"115","Transportation corridors","New development",0,"P",10
+"130","Juv. Chinook (estuarine)","Herring",0,"N",25
+"131","Orcas (SRKW)","Chinook spawners",0,"N",26
+"132","Pinnipeds","Juv. Chinook (estuarine)",0,"N",27
+"133","Juv. Chinook (estuarine)","Zooplankton",0,"N",28
+"134","Pinnipeds","Herring",0,"N",29
+"135","Herring","Zooplankton",0,"N",30
+"136","Zooplankton","Phytoplankton",0,"N",31
 "110","Agriculture","Agriculture",0,"N",106
 "210","Algal blooms","Algal blooms",0,"N",107
 "310","B-IBI","B-IBI",0,"N",108
@@ -125,21 +125,21 @@
 "106","Floodplains","Floodplains",0,"N",115
 "111","Forestry","Forestry",0,"N",116
 "121","Greening","Greening",0,"N",117
-"138","Herring","Herring",0,"N",118
+"137","Herring","Herring",0,"N",118
 "141","Human health","Human health",0,"N",119
-"151","Juvenile Chinook","Juvenile Chinook",0,"N",120
-"161","New development","New development",0,"N",121
-"171","Nutrients","Nutrients",0,"N",122
-"181","Orcas (SRKW)","Orcas (SRKW)",0,"N",123
-"191","Phytoplankton","Phytoplankton",0,"N",124
-"201","Pinnipeds","Pinnipeds",0,"N",125
-"211","Redevelopment","Redevelopment",0,"N",126
-"221","Riparian habitat","Riparian habitat",0,"N",127
-"231","Rural runoff","Rural runoff",0,"N",128
-"241","Sense of place","Sense of place",0,"N",129
-"251","Septics","Septics",0,"N",130
-"261","Stratification","Stratification",0,"N",131
-"271","Sub adult Chinook","Sub adult Chinook",0,"N",132
+"151","Juv. Chinook (estuarine)","Juv. Chinook (estuarine)",0,"N",120
+"161","Juv. Chinook (freshwater)","Juv. Chinook (freshwater)",0,"N",121
+"171","New development","New development",0,"N",122
+"181","Nutrients","Nutrients",0,"N",123
+"191","Orcas (SRKW)","Orcas (SRKW)",0,"N",124
+"201","Phytoplankton","Phytoplankton",0,"N",125
+"211","Pinnipeds","Pinnipeds",0,"N",126
+"221","Redevelopment","Redevelopment",0,"N",127
+"231","Riparian habitat","Riparian habitat",0,"N",128
+"241","Rural runoff","Rural runoff",0,"N",129
+"251","Sense of place","Sense of place",0,"N",130
+"261","Septics","Septics",0,"N",131
+"271","Stratification","Stratification",0,"N",132
 "281","Summer flows","Summer flows",0,"N",133
 "291","Temperature","Temperature",0,"N",134
 "301","Toxics","Toxics",0,"N",135
