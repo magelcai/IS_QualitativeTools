@@ -14,7 +14,7 @@ library(here) #folder management
 
 
 # Load the Dia model
-mod <- QPress::model.dia("./DiaModels/InterJurWatershed_7June2021_forR.dia")
+mod <- QPress::model.dia("./DiaModels/InterJurWatershed_11June2021_forR.dia")
 
 
 ## Examine unweighted adjacency matrix
