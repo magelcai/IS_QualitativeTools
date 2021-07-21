@@ -26,7 +26,7 @@ mod <- enforce.limitation(mod) #I think this is redundant with the self-limiting
 
 
 #If model simulations already exist, load them
-sims <- readRDS("Sims_10000_2021-06-17.rds")
+sims <- readRDS("Sims_10000_2021-07-20.rds")
 
 #If model simulation does not exist, simulate and save!
 n_sims <- 10000 #number of accepted simulations requested
@@ -146,4 +146,109 @@ for (i in 1:33) { #number of nodes in model
 }
 par(opar)
 dev.off()
+
+
+
+##### Sensitivity Analysis Code adapted from K. Sobocinski ##### 
+
+library(reshape2)
+library(ggplot2)
+
+#To extract the weight values in the accepted model runs:
+sims$edges
+head(sims$w)
+tail(sims$w)
+mean(abs(sims$w)) #0.5008
+
+is.matrix(sims$w) #True
+weight <- as.data.frame(sims$w)
+head(weight)
+#Check distributions of different nodes to see how variable they are
+hist(weight[,63])
+
+#To assess the sensitivity of the weights
+#Extract edges and weights from simulations
+wts <- reshape2::melt(weight)
+colnames(wts)=c("Edge", "Value")
+head(wts)
+
+dim(sims$w) #10000 x 144 (144 linkages in the model)
+
+#Get means for each edge
+edgemean <- as.data.frame(apply(sims$w, 2, mean))
+summary(edgemean)
+edgemin <- as.data.frame(apply(sims$w, 2, min))
+edgemax <- as.data.frame(apply(sims$w, 2, max))
+edgestdev <- as.data.frame(apply(sims$w, 2, sd))
+hist(abs(edgemean[,1]))
+hist(abs(edgemin[,1]))
+hist(abs(edgemax[,1]))
+hist(abs(edgestdev[,1]))
+lowerSD <- abs(edgemean[,1])-abs(edgestdev[,1])
+upperSD <- abs(edgemean[,1])+abs(edgestdev[,1])
+
+edgenames <- as.data.frame(levels(wts$Edge)) 
+edge.vals <- cbind(edgenames, abs(edgemean[,1]), abs(edgemin[,1]), 
+                 abs(edgemax[,1]))
+
+#USe max and min values with mean
+head(edge.vals)
+dim(edge.vals) #144 linkaes in the model x 4 columns
+colnames(edge.vals)=c("Edge", "Mean", "Min", "Max")
+str(edge.vals)
+
+#Use SD
+edgesSD <- cbind(edgenames, abs(edgemean[,1]), lowerSD, upperSD)
+head(edgesSD)
+colnames(edgesSD)=c("Edge", "Mean", "LowerSD", "UpperSD")
+
+#Plot all edges and means, maxes, and mins
+ggplot(edge.vals, aes(x=Mean, y=Edge)) +
+  geom_errorbarh(data=edge.vals, aes(xmax=Max, xmin=Min), colour = "grey50") + 
+  geom_point()
+
+#Reorder so easier to see
+ggplot(edgesSD, aes(x=Mean, y=reorder(Edge, Mean))) +
+  geom_errorbarh(data=edgesSD, aes(xmax=UpperSD, xmin=LowerSD), colour = "grey50") + 
+  geom_point() + theme_bw() + xlab("Weight (mean +/- sd)") + ylab("Edge") +
+  geom_vline(xintercept=0.5, linetype="dotted") + theme(axis.text=element_text(size=6),
+                                                         axis.title=element_text(size=10,face="bold"))
+
+#Pull out outliers (top/bottom 15 values)
+#Reorder EdgesSD by mean
+ro <- edgesSD[order(-edgesSD$Mean),]
+top <- ro[1:15,]
+bottom <- ro[130:144,]
+
+outliers <- rbind(top, bottom)
+
+#Plot all outliers
+ggplot(outliers, aes(x=Mean, y=reorder(Edge, Mean))) +
+  geom_errorbarh(data=outliers, aes(xmax=UpperSD, xmin=LowerSD), colour = "grey50") + 
+  ylab("Edge") +
+  xlab("Weight (mean +/- sd)") +
+  theme_bw() +
+  geom_point() +
+  geom_vline(xintercept=0.5, linetype="dotted") + theme(axis.text=element_text(size=12),
+                                                        axis.title=element_text(size=12,face="bold"))
+#Plot top (minus self-reg. loops) and bottom:
+ggplot(outliers[8:30,], aes(x=Mean, y=reorder(Edge, Mean))) +
+  geom_errorbarh(data=outliers[8:30,], aes(xmax=UpperSD, xmin=LowerSD), colour = "grey50") + 
+  ylab("Edge") +
+  xlab("Weight (mean +/- sd)") +
+  theme_bw() +
+  geom_point() +
+  geom_vline(xintercept=0.5, linetype="dotted")
+
+#To plot bottom (most sensitive edges only):
+ggplot(bottom, aes(x=Mean, y=reorder(Edge, Mean))) +
+  geom_errorbarh(data=bottom, aes(xmax=UpperSD, xmin=LowerSD), colour = "grey50") + 
+  ylab("Edge") +
+  xlab("Mean Weight") +
+  theme_bw() +
+  theme(axis.text=element_text(size=10),
+        axis.title=element_text(size=10,face="bold"))+
+  geom_point() +
+  geom_vline(xintercept=0.5, linetype="dotted")
+
 
