@@ -14,7 +14,7 @@ library(here) #folder management
 
 
 # Load the Dia model
-mod <- QPress::model.dia("./DiaModels/InterJurWatershed_20July2021_forR.dia")
+mod <- QPress::model.dia("./DiaModels/InterJurWatershed_23July2021_forR.dia")
 
 
 ## Examine unweighted adjacency matrix
@@ -158,7 +158,7 @@ library(ggplot2)
 sims$edges
 head(sims$w)
 tail(sims$w)
-mean(abs(sims$w)) #0.5008
+mean(abs(sims$w)) #0.5007
 
 is.matrix(sims$w) #True
 weight <- as.data.frame(sims$w)
@@ -172,7 +172,7 @@ wts <- reshape2::melt(weight)
 colnames(wts)=c("Edge", "Value")
 head(wts)
 
-dim(sims$w) #10000 x 144 (144 linkages in the model)
+dim(sims$w) #10000 x 145 (145 linkages in the model)
 
 #Get means for each edge
 edgemean <- as.data.frame(apply(sims$w, 2, mean))
