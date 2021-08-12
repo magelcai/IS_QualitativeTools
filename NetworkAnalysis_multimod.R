@@ -41,7 +41,15 @@ newdev_C <- enforce.limitation(newdev_C)
 newdev_D <- enforce.limitation(newdev_D)
 
 #If model simulations already exist, load them
-#sims <- readRDS("Sims_10000_2021-07-23.rds")
+sims_redev_A <- readRDS("Sims_redev_A10000_2021-08-11.rds")
+sims_redev_B <- readRDS("Sims_redev_B10000_2021-08-11.rds")
+sims_redev_C <- readRDS("Sims_redev_C10000_2021-08-11.rds")
+sims_redev_D <- readRDS("Sims_redev_D10000_2021-08-11.rds")
+
+sims_newdev_A <- readRDS("Sims_newdev_A10000_2021-08-11.rds")
+sims_newdev_B <- readRDS("Sims_newdev_B10000_2021-08-11.rds")
+sims_newdev_C <- readRDS("Sims_newdev_C10000_2021-08-11.rds")
+sims_newdev_D <- readRDS("Sims_newdev_D10000_2021-08-11.rds")
 
 #If model simulation does not exist, simulate and save!
 n_sims <- 10000 #number of accepted simulations requested
@@ -63,11 +71,15 @@ sims_newdev_C$total #66630
 sims_newdev_D <- QPress::system.simulate(n_sims, newdev_D)
 sims_newdev_D$total #65250
 
-impact.barplot(sim = sims_redev_A) # exploratory widget
-impact.barplot(sim = sims_redev_A) # exploratory widget
-weight.density(sim = sims) # to produce density plots of edge weights for all the simulations
+impact.barplot(sim = sims_redev_A) # exploratory widget & print results
+impact.barplot(sim = sims_redev_B) 
+impact.barplot(sim = sims_redev_C) 
+impact.barplot(sim = sims_redev_D) 
 
-impact.barplot.shiny(sims_redev_A, epsilon = 1e-05)
+impact.barplot(sim = sims_newdev_A) # exploratory widget & print results
+impact.barplot(sim = sims_newdev_B) 
+impact.barplot(sim = sims_newdev_C) 
+impact.barplot(sim = sims_newdev_D) 
 
 #Extract the weight values in the accepted model runs:
 sims$edges
