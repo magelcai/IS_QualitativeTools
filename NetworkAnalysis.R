@@ -26,7 +26,7 @@ mod <- enforce.limitation(mod) #I think this is redundant with the self-limiting
 
 
 #If model simulations already exist, load them
-sims <- readRDS("Sims_10000_2021-07-20.rds")
+sims <- readRDS("Sims_10000_2021-07-23.rds")
 
 #If model simulation does not exist, simulate and save!
 n_sims <- 10000 #number of accepted simulations requested
@@ -193,7 +193,7 @@ edge.vals <- cbind(edgenames, abs(edgemean[,1]), abs(edgemin[,1]),
 
 #USe max and min values with mean
 head(edge.vals)
-dim(edge.vals) #144 linkaes in the model x 4 columns
+dim(edge.vals) #145 linkaes in the model x 4 columns
 colnames(edge.vals)=c("Edge", "Mean", "Min", "Max")
 str(edge.vals)
 
@@ -210,7 +210,9 @@ ggplot(edge.vals, aes(x=Mean, y=Edge)) +
 #Reorder so easier to see
 ggplot(edgesSD, aes(x=Mean, y=reorder(Edge, Mean))) +
   geom_errorbarh(data=edgesSD, aes(xmax=UpperSD, xmin=LowerSD), colour = "grey50") + 
-  geom_point() + theme_bw() + xlab("Weight (mean +/- sd)") + ylab("Edge") +
+  geom_point() + theme_bw() + xlab("Weight abs(mean +/- sd)") + ylab("Edge") +
+  geom_vline(xintercept=0, linetype="dotted") +
+  geom_vline(xintercept=1.0, linetype="dotted") +
   geom_vline(xintercept=0.5, linetype="dotted") + theme(axis.text=element_text(size=6),
                                                          axis.title=element_text(size=10,face="bold"))
 
@@ -218,7 +220,7 @@ ggplot(edgesSD, aes(x=Mean, y=reorder(Edge, Mean))) +
 #Reorder EdgesSD by mean
 ro <- edgesSD[order(-edgesSD$Mean),]
 top <- ro[1:15,]
-bottom <- ro[130:144,]
+bottom <- ro[131:145,]
 
 outliers <- rbind(top, bottom)
 
@@ -229,13 +231,15 @@ ggplot(outliers, aes(x=Mean, y=reorder(Edge, Mean))) +
   xlab("Weight (mean +/- sd)") +
   theme_bw() +
   geom_point() +
+  geom_vline(xintercept=0, linetype="dotted") +
+  geom_vline(xintercept=1.0, linetype="dotted") +
   geom_vline(xintercept=0.5, linetype="dotted") + theme(axis.text=element_text(size=12),
                                                         axis.title=element_text(size=12,face="bold"))
 #Plot top (minus self-reg. loops) and bottom:
 ggplot(outliers[8:30,], aes(x=Mean, y=reorder(Edge, Mean))) +
   geom_errorbarh(data=outliers[8:30,], aes(xmax=UpperSD, xmin=LowerSD), colour = "grey50") + 
   ylab("Edge") +
-  xlab("Weight (mean +/- sd)") +
+  xlab("Weight abs(mean +/- sd)") +
   theme_bw() +
   geom_point() +
   geom_vline(xintercept=0.5, linetype="dotted")
