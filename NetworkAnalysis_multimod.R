@@ -27,6 +27,7 @@ newdev_D <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021
 newdev_E1 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE1_forR.dia")
 newdev_E2 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE2_forR.dia")
 newdev_E3 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE3_forR.dia")
+newdev_E4 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE4_forR.dia")
 
 ## Examine unweighted adjacency matrices
 A_E1 <- adjacency.matrix(newdev_E1)
@@ -46,6 +47,7 @@ newdev_D <- enforce.limitation(newdev_D)
 newdev_E1 <- enforce.limitation(newdev_E1)
 newdev_E2 <- enforce.limitation(newdev_E2)
 newdev_E3 <- enforce.limitation(newdev_E3)
+newdev_E4 <- enforce.limitation(newdev_E4)
 
 #If model simulations already exist, load them
 sims_redev_A <- readRDS("Sims_redev_A10000_2021-08-11.rds")
@@ -85,6 +87,8 @@ sims_newdev_E2 <- QPress::system.simulate(n_sims, newdev_E2)
 sims_newdev_E2$total #33095
 sims_newdev_E3 <- QPress::system.simulate(n_sims, newdev_E3)
 sims_newdev_E3$total #33235
+sims_newdev_E4 <- QPress::system.simulate(n_sims, newdev_E4)
+sims_newdev_E4$total #33127
 
 impact.barplot(sim = sims_redev_A) # exploratory widget & print results
 impact.barplot(sim = sims_redev_B) 
@@ -98,7 +102,8 @@ impact.barplot(sim = sims_newdev_D)
 
 impact.barplot(sim = sims_newdev_E1) 
 impact.barplot(sim = sims_newdev_E2) 
-impact.barplot(sim = sims_newdev_E3) 
+impact.barplot(sim = sims_newdev_E3)
+impact.barplot(sim = sims_newdev_E4) 
 
 #Extract the weight values in the accepted model runs:
 sims$edges
@@ -119,6 +124,7 @@ saveRDS(sims_newdev_D, file = paste("Sims_", "newdev_D_", n_sims, "_", Sys.Date(
 saveRDS(sims_newdev_E1, file = paste("Sims_", "newdev_E1_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 saveRDS(sims_newdev_E2, file = paste("Sims_", "newdev_E2_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 saveRDS(sims_newdev_E3, file = paste("Sims_", "newdev_E3_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+saveRDS(sims_newdev_E4, file = paste("Sims_", "newdev_E4_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 
 ##################################################################################################
 ##################################################################################################
