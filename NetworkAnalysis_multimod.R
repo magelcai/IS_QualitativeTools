@@ -14,27 +14,34 @@ library(here) #folder management
 
 
 # Load the Dia models
+
+statquo <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_StatusQuo_forR.dia")
+
 redev_A <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_RedevA_forR.dia")
 redev_B <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_RedevB_forR.dia")
 redev_C <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_RedevC_forR.dia")
 redev_D <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_RedevD_forR.dia")
 
-newdev_A <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevA_forR.dia")
-newdev_B <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevB_forR.dia")
-newdev_C <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevC_forR.dia")
-newdev_D <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevD_forR.dia")
+newdev_A <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevA_forR.dia") #this became B
+newdev_B <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevB_forR.dia") #C
+newdev_C <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevC_forR.dia") #D
+newdev_D <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevD_forR.dia") #E
 
-newdev_E1 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE1_forR.dia")
-newdev_E2 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE2_forR.dia")
-newdev_E3 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE3_forR.dia")
-newdev_E4 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE4_forR.dia")
+#newdev_E1 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE1_forR.dia")
+#newdev_E2 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE2_forR.dia")
+#newdev_E3 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE3_forR.dia")
+newdev_E4 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE4_forR.dia") #this became A
 
 ## Examine unweighted adjacency matrices
-A_E1 <- adjacency.matrix(newdev_E1)
-A
+A_Statquo <- adjacency.matrix(statquo)
+A_Statquo
 write.csv(A, file = "Model_AdjMatrix.csv", row.names = FALSE) #save the matrix, ifn needed
 
-redev_A <- enforce.limitation(redev_A) #I think this is redundant with the self-limiting edges in the Dia model
+## Enforce limitation (I think this is redundant with the self-limiting edges in the Dia model)
+
+statquo <- enforce.limitation(statquo)
+
+redev_A <- enforce.limitation(redev_A)
 redev_B <- enforce.limitation(redev_B)
 redev_C <- enforce.limitation(redev_C)
 redev_D <- enforce.limitation(redev_D)
@@ -44,9 +51,9 @@ newdev_B <- enforce.limitation(newdev_B)
 newdev_C <- enforce.limitation(newdev_C)
 newdev_D <- enforce.limitation(newdev_D)
 
-newdev_E1 <- enforce.limitation(newdev_E1)
-newdev_E2 <- enforce.limitation(newdev_E2)
-newdev_E3 <- enforce.limitation(newdev_E3)
+#newdev_E1 <- enforce.limitation(newdev_E1)
+#newdev_E2 <- enforce.limitation(newdev_E2)
+#newdev_E3 <- enforce.limitation(newdev_E3)
 newdev_E4 <- enforce.limitation(newdev_E4)
 
 #If model simulations already exist, load them
@@ -63,6 +70,10 @@ sims_newdev_D <- readRDS("Sims_newdev_D10000_2021-08-11.rds")
 
 #If model simulation does not exist, simulate and save!
 n_sims <- 10000 #number of accepted simulations requested
+
+sims_statquo <- QPress::system.simulate(n_sims, statquo)
+sims_statquo$total #65188
+
 sims_redev_A <- QPress::system.simulate(n_sims, redev_A)
 sims_redev_A$total #66331
 sims_redev_B <- QPress::system.simulate(n_sims, redev_B)
@@ -90,6 +101,9 @@ sims_newdev_E3$total #33235
 sims_newdev_E4 <- QPress::system.simulate(n_sims, newdev_E4)
 sims_newdev_E4$total #33127
 
+#simulate
+impact.barplot(sim = sims_statquo) # exploratory widget & print results
+
 impact.barplot(sim = sims_redev_A) # exploratory widget & print results
 impact.barplot(sim = sims_redev_B) 
 impact.barplot(sim = sims_redev_C) 
@@ -106,11 +120,13 @@ impact.barplot(sim = sims_newdev_E3)
 impact.barplot(sim = sims_newdev_E4) 
 
 #Extract the weight values in the accepted model runs:
-sims$edges
-head(sims$w)
-mean(abs(sims$w))
+sims_statquo$edges
+head(sims_statquo$w)
+mean(abs(sims_statquo$w))
 
 #save simulations
+saveRDS(sims_statquo, file = paste("Sims_", "StatusQuo_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+
 saveRDS(sims_redev_A, file = paste("Sims_", "redev_A_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 saveRDS(sims_redev_B, file = paste("Sims_", "redev_B_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 saveRDS(sims_redev_C, file = paste("Sims_", "redev_C_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
