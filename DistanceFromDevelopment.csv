@@ -1,0 +1,36 @@
+,statquo,NewDevA,NewDevB,NewDevC,NewDevD,NewDevE,ReDevstatquo,ReDevA,ReDevB,ReDevC,ReDevD
+Agriculture,1,1,1,1,1,1,Inf,Inf,Inf,Inf,Inf
+Algal blooms,3,3,3,3,3,3,3,3,3,3,3
+B-IBI,2,2,2,2,2,2,3,2,2,3,2
+Bacteria,2,2,2,2,2,2,2,2,2,2,2
+Chinook spawners,4,4,4,4,4,4,4,3,3,4,3
+Dissolved oxygen,3,3,3,3,3,3,3,3,3,3,3
+Economic vitality,2,2,2,2,2,2,4,3,3,4,3
+Edible shellfish,3,3,3,3,3,3,3,2,2,3,2
+Eelgrass,3,3,3,3,3,3,3,2,2,3,2
+Floodplains,1,1,1,1,1,1,Inf,3,Inf,Inf,Inf
+Greening,Inf,Inf,Inf,Inf,Inf,Inf,Inf,1,Inf,Inf,Inf
+Herring,4,4,4,4,3,3,3,2,2,3,2
+Human health,2,2,2,2,2,2,2,2,2,2,2
+Juv. Chinook (estuarine),3,3,3,3,3,3,3,3,3,3,3
+Juv. Chinook (freshwater),2,2,2,2,2,2,3,2,2,3,2
+New development,0,0,0,0,0,0,Inf,Inf,Inf,Inf,Inf
+Nutrients,2,2,2,2,2,2,2,2,2,2,2
+Orcas (SRKW),4,5,4,4,3,3,3,2,2,3,2
+Phytoplankton,3,3,3,3,3,3,3,3,3,3,3
+Pinnipeds,4,4,4,4,3,3,3,2,2,3,2
+Redevelopment,Inf,Inf,Inf,Inf,Inf,Inf,0,0,0,0,0
+Riparian habitat,1,1,1,1,1,1,Inf,3,Inf,Inf,Inf
+Rural runoff,1,2,2,1,2,1,Inf,4,Inf,Inf,Inf
+Sense of place,1,1,1,1,1,1,1,1,1,1,1
+Septics,1,1,1,1,1,1,Inf,Inf,Inf,Inf,Inf
+Stratification,3,3,3,3,3,3,3,3,3,3,Inf
+Summer flows,2,2,2,2,2,2,Inf,2,Inf,Inf,Inf
+Temperature,2,2,2,2,2,2,2,2,2,2,Inf
+Toxics,3,Inf,3,3,2,2,2,1,1,2,1
+Transportation corridors,1,Inf,1,1,1,1,Inf,Inf,Inf,Inf,Inf
+Urban runoff,2,Inf,2,2,1,1,1,1,1,1,Inf
+Wastewater,3,Inf,3,3,2,2,1,1,1,1,1
+Zooplankton,4,4,4,4,4,4,4,3,3,4,3
+,,,,,,,,,,,
+Mean,2.32,2.41,2.35,2.32,2.16,2.13,2.54,2.17,2.08,2.54,2.10
