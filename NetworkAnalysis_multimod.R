@@ -5,6 +5,7 @@
 #QPress package is based on the analysis from Melbourne-Thomas et al 2012
 #https://wiley.figshare.com/articles/dataset/Supplement_1_Example_R_code_and_models_/3568107/1
 #https://esajournals.onlinelibrary.wiley.com/doi/full/10.1890/12-0207.1?casa_token=VHTR6o_DvQ8AAAAA%3A_vmeRY9Q0b_fiUK3YpRBnKSq5_q-armBNM4ik05kN15SkrRXWQL-uUfmJyENGHCm_gN0-VY8rh-amw
+#Some modifications were made to the original QPress code - they are contained in QPressFunctions.R
 
 # Load required packages
 library(QPress)
@@ -13,103 +14,94 @@ library(XML)
 library(here) #folder management
 
 
-# Load the Dia models
+##### Load the Dia models #####
+statquo <- QPress::model.dia("./DiaModels/MultiMods/StatusQuo_3Sept2021_forR.dia")
+mod_redevB_newdevC <- QPress::model.dia("./DiaModels/MultiMods/Moderate_RedevB+NewDevC_3Sept2021_forR.dia") 
 
-statquo <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_StatusQuo_forR.dia")
+redev_A <- QPress::model.dia("./DiaModels/MultiMods/RedevA_3Sept2021_forR.dia")
+redev_B <- QPress::model.dia("./DiaModels/MultiMods/RedevB_3Sept2021_forR.dia") 
+redev_C <- QPress::model.dia("./DiaModels/MultiMods/RedevC_3Sept2021_forR.dia") 
 
-redev_A <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_RedevA_forR.dia")
-redev_B <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_RedevB_forR.dia")
-redev_C <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_RedevC_forR.dia")
-redev_D <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_RedevD_forR.dia")
-
-newdev_A <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevA_forR.dia") #this became B
-newdev_B <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevB_forR.dia") #C
-newdev_C <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevC_forR.dia") #D
-newdev_D <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevD_forR.dia") #E
-
-#newdev_E1 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE1_forR.dia")
-#newdev_E2 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE2_forR.dia")
-#newdev_E3 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE3_forR.dia")
-newdev_E4 <- QPress::model.dia("./DiaModels/MultiMods/InterJurWatershed_11Aug2021_NewDevE4_forR.dia") #this became A
+newdev_A <- QPress::model.dia("./DiaModels/MultiMods/NewDevA_3Sept2021_forR.dia") 
+newdev_B <- QPress::model.dia("./DiaModels/MultiMods/NewDevB_3Sept2021_forR.dia") 
+newdev_C <- QPress::model.dia("./DiaModels/MultiMods/NewDevC_3Sept2021_forR.dia") 
+newdev_D <- QPress::model.dia("./DiaModels/MultiMods/NewDevD_3Sept2021_forR.dia") 
 
 ## Examine unweighted adjacency matrices
 A_Statquo <- adjacency.matrix(statquo)
 A_Statquo
 write.csv(A, file = "Model_AdjMatrix.csv", row.names = FALSE) #save the matrix, ifn needed
 
-## Enforce limitation (I think this is redundant with the self-limiting edges in the Dia model)
+## Enforce limitation (This is redundant with the self-limiting edges in the Dia model, if they are already included)
+statquo <- QPress::enforce.limitation(statquo)
+moderate <- QPress::enforce.limitation(mod_redevB_newdevC)
 
-statquo <- enforce.limitation(statquo)
+redev_A <- QPress::enforce.limitation(redev_A)
+redev_B <- QPress::enforce.limitation(redev_B)
+redev_C <- QPress::enforce.limitation(redev_C)
 
-redev_A <- enforce.limitation(redev_A)
-redev_B <- enforce.limitation(redev_B)
-redev_C <- enforce.limitation(redev_C)
-redev_D <- enforce.limitation(redev_D)
+newdev_A <- QPress::enforce.limitation(newdev_A)
+newdev_B <- QPress::enforce.limitation(newdev_B)
+newdev_C <- QPress::enforce.limitation(newdev_C)
+newdev_D <- QPress::enforce.limitation(newdev_D)
 
-newdev_A <- enforce.limitation(newdev_A)
-newdev_B <- enforce.limitation(newdev_B)
-newdev_C <- enforce.limitation(newdev_C)
-newdev_D <- enforce.limitation(newdev_D)
-
-#newdev_E1 <- enforce.limitation(newdev_E1)
-#newdev_E2 <- enforce.limitation(newdev_E2)
-#newdev_E3 <- enforce.limitation(newdev_E3)
-newdev_E4 <- enforce.limitation(newdev_E4)
-
+##### Simulations #####
 #If model simulations already exist, load them
 sims_redev_A <- readRDS("Sims_redev_A10000_2021-08-11.rds")
-sims_redev_B <- readRDS("Sims_redev_B10000_2021-08-11.rds")
-sims_redev_C <- readRDS("Sims_redev_C10000_2021-08-11.rds")
-sims_redev_D <- readRDS("Sims_redev_D10000_2021-08-11.rds")
 
-sims_newdev_A <- readRDS("Sims_newdev_A10000_2021-08-11.rds")
-sims_newdev_B <- readRDS("Sims_newdev_B10000_2021-08-11.rds")
-sims_newdev_C <- readRDS("Sims_newdev_C10000_2021-08-11.rds")
-sims_newdev_D <- readRDS("Sims_newdev_D10000_2021-08-11.rds")
 
 
 #If model simulation does not exist, simulate and save!
 n_sims <- 10000 #number of accepted simulations requested
 
 sims_statquo <- QPress::system.simulate(n_sims, statquo)
-sims_statquo$total #65188
+sims_statquo$total #66797
+
+sims_moderate <- QPress::system.simulate(n_sims, moderate)
+sims_moderate$total #65625
 
 sims_redev_A <- QPress::system.simulate(n_sims, redev_A)
-sims_redev_A$total #66331
+sims_redev_A$total #66061
 sims_redev_B <- QPress::system.simulate(n_sims, redev_B)
-sims_redev_B$total #66267
+sims_redev_B$total #66876
 sims_redev_C <- QPress::system.simulate(n_sims, redev_C)
-sims_redev_C$total #66066
-sims_redev_D <- QPress::system.simulate(n_sims, redev_D)
-sims_redev_D$total #66663
+sims_redev_C$total #66834
 
 sims_newdev_A <- QPress::system.simulate(n_sims, newdev_A)
-sims_newdev_A$total #65897
+sims_newdev_A$total #65825
 sims_newdev_B <- QPress::system.simulate(n_sims, newdev_B)
-sims_newdev_B$total #67004
+sims_newdev_B$total #66596
 sims_newdev_C <- QPress::system.simulate(n_sims, newdev_C)
-sims_newdev_C$total #66630
+sims_newdev_C$total #66905
 sims_newdev_D <- QPress::system.simulate(n_sims, newdev_D)
-sims_newdev_D$total #65250
+sims_newdev_D$total #33130
 
-sims_newdev_E1 <- QPress::system.simulate(n_sims, newdev_E1)
-sims_newdev_E1$total #32803
-sims_newdev_E2 <- QPress::system.simulate(n_sims, newdev_E2)
-sims_newdev_E2$total #33095
-sims_newdev_E3 <- QPress::system.simulate(n_sims, newdev_E3)
-sims_newdev_E3$total #33235
-sims_newdev_E4 <- QPress::system.simulate(n_sims, newdev_E4)
-sims_newdev_E4$total #33127
+##### Save Simulations #####
+saveRDS(sims_statquo, file = paste("Sims_", "StatusQuo_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+saveRDS(sims_moderate, file = paste("Sims_", "Moderate_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 
-#simulate
-impact.barplot(sim = sims_statquo) # exploratory widget & print results
+saveRDS(sims_redev_A, file = paste("Sims_", "redev_A_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+saveRDS(sims_redev_B, file = paste("Sims_", "redev_B_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+saveRDS(sims_redev_C, file = paste("Sims_", "redev_C_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 
-impact.barplot(sim = sims_redev_A) # exploratory widget & print results
+saveRDS(sims_newdev_A, file = paste("Sims_", "newdev_A_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+saveRDS(sims_newdev_B, file = paste("Sims_", "newdev_B_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+saveRDS(sims_newdev_C, file = paste("Sims_", "newdev_C_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+saveRDS(sims_newdev_D, file = paste("Sims_", "newdev_D_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+
+
+##### Perturbations #####
+#using custom exploratory widget & print results from QPressFunctions.R
+#Save the pos/neg sims by copying/pasting last output into Excel
+impact.barplot(sim = sims_statquo) 
+impact.barplot(sim = sims_moderate)
+
+impact.barplot(sim = sims_redev_A) 
 impact.barplot(sim = sims_redev_B) 
 impact.barplot(sim = sims_redev_C) 
 impact.barplot(sim = sims_redev_D) 
 
-impact.barplot(sim = sims_newdev_A) # exploratory widget & print results
+impact.barplot(sim = sims_newdev_A)
 impact.barplot(sim = sims_newdev_B) 
 impact.barplot(sim = sims_newdev_C) 
 impact.barplot(sim = sims_newdev_D) 
@@ -119,28 +111,12 @@ impact.barplot(sim = sims_newdev_E2)
 impact.barplot(sim = sims_newdev_E3)
 impact.barplot(sim = sims_newdev_E4) 
 
-#Extract the weight values in the accepted model runs:
+#Examine weight values in the accepted model runs:
 sims_statquo$edges
-head(sims_statquo$w)
 mean(abs(sims_statquo$w))
 
-#save simulations
-saveRDS(sims_statquo, file = paste("Sims_", "StatusQuo_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-
-saveRDS(sims_redev_A, file = paste("Sims_", "redev_A_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-saveRDS(sims_redev_B, file = paste("Sims_", "redev_B_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-saveRDS(sims_redev_C, file = paste("Sims_", "redev_C_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-saveRDS(sims_redev_D, file = paste("Sims_", "redev_D_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-
-saveRDS(sims_newdev_A, file = paste("Sims_", "newdev_A_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-saveRDS(sims_newdev_B, file = paste("Sims_", "newdev_B_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-saveRDS(sims_newdev_C, file = paste("Sims_", "newdev_C_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-saveRDS(sims_newdev_D, file = paste("Sims_", "newdev_D_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-
-saveRDS(sims_newdev_E1, file = paste("Sims_", "newdev_E1_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-saveRDS(sims_newdev_E2, file = paste("Sims_", "newdev_E2_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-saveRDS(sims_newdev_E3, file = paste("Sims_", "newdev_E3_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-saveRDS(sims_newdev_E4, file = paste("Sims_", "newdev_E4_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+sims_moderate$edges
+mean(abs(sims_moderate$w))
 
 ##################################################################################################
 ##################################################################################################
