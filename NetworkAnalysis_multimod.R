@@ -47,9 +47,18 @@ newdev_D <- QPress::enforce.limitation(newdev_D)
 
 ##### Simulations #####
 #If model simulations already exist, load them
-sims_redev_A <- readRDS("Sims_redev_A10000_2021-08-11.rds")
 
+sims_statquo <- readRDS("Sims_StatusQuo_10000_2021-09-03.rds")
+sims_moderate <- readRDS("Sims_Moderate_10000_2021-09-03.rds")
 
+sims_redev_A <- readRDS("Sims_redev_A_10000_2021-09-03.rds")
+sims_redev_B <- readRDS("Sims_redev_B_10000_2021-09-03.rds")
+sims_redev_C <- readRDS("Sims_redev_C_10000_2021-09-03.rds")
+
+sims_newdev_A <- readRDS("Sims_newdev_A_10000_2021-09-03.rds")
+sims_newdev_B <- readRDS("Sims_newdev_B_10000_2021-09-03.rds")
+sims_newdev_C <- readRDS("Sims_newdev_C_10000_2021-09-03.rds")
+sims_newdev_D <- readRDS("Sims_newdev_D_10000_2021-09-03.rds")
 
 #If model simulation does not exist, simulate and save!
 n_sims <- 10000 #number of accepted simulations requested
@@ -93,30 +102,33 @@ saveRDS(sims_newdev_D, file = paste("Sims_", "newdev_D_", n_sims, "_", Sys.Date(
 ##### Perturbations #####
 #using custom exploratory widget & print results from QPressFunctions.R
 #Save the pos/neg sims by copying/pasting last output into Excel
-impact.barplot(sim = sims_statquo) 
+
+# Combined Urban + rural (+ New Development, + Redevelopment)
+impact.barplot(sim = sims_statquo)
 impact.barplot(sim = sims_moderate)
 
-impact.barplot(sim = sims_redev_A) 
+# Status Quo Individual Strategies
+impact.barplot(sim = sims_statquo) # (+ New Development)
+impact.barplot(sim = sims_statquo) # (+ Redevelopment)
+
+# Urban Strategies only (+ Redevelopment) 
+impact.barplot(sim = sims_redev_A)
 impact.barplot(sim = sims_redev_B) 
 impact.barplot(sim = sims_redev_C) 
-impact.barplot(sim = sims_redev_D) 
 
+# Rural Strategies only (+ New Development) 
 impact.barplot(sim = sims_newdev_A)
 impact.barplot(sim = sims_newdev_B) 
 impact.barplot(sim = sims_newdev_C) 
 impact.barplot(sim = sims_newdev_D) 
 
-impact.barplot(sim = sims_newdev_E1) 
-impact.barplot(sim = sims_newdev_E2) 
-impact.barplot(sim = sims_newdev_E3)
-impact.barplot(sim = sims_newdev_E4) 
 
 #Examine weight values in the accepted model runs:
 sims_statquo$edges
-mean(abs(sims_statquo$w))
+mean(abs(sims_statquo$w)) # 0.5008522
 
 sims_moderate$edges
-mean(abs(sims_moderate$w))
+mean(abs(sims_moderate$w)) # 0.5004666
 
 ##################################################################################################
 ##################################################################################################
@@ -124,10 +136,10 @@ mean(abs(sims_moderate$w))
 # For generating plots that are not part of the QPress package, use code below
 # Example code was provided by Ben Raymond, but this came from K. Sobocinski
 
-# Extract the bits we need
-edges <- sims_redev_A$edges
+# Extract the bits we need from the Status Quo Model
+edges <- sims_statquo$edges
 write.csv(edges, file = "Model_EdgesList.csv")
-As <- sims_redev_A$A
+As <- sims_statquo$A
 nodes <- node.labels(edges)
 write.csv(nodes, file = "Model_NodesList.csv")
 
@@ -137,7 +149,7 @@ monitor <- c(rep(NA,length(nodes))) ## Don't enforce any required responses
 #Call specific nodes of interest
 #To show only a subset of node responses (e.g. 12, 13, 27, 4, 31), run this instead of standard plot:
 myplot <- function(nodes,As,perturb,monitor,epsilon=1.0E-5,main="",cex.axis=1) {
-  pal <- c("lightblue", "#808080", "tomato3")  #Kathryn's colors: c("firebrick4", "#808080", "lightblue")
+  pal <- c("grey30", "gray80", "tomato2")
   results <- matrix(0,length(nodes),3)
   for(i in 1:length(As)) {
     impact <- signum(drop(As[[i]]%*%perturb),epsilon=epsilon)
