@@ -130,6 +130,15 @@ mean(abs(sims_statquo$w)) # 0.5008522
 sims_moderate$edges
 mean(abs(sims_moderate$w)) # 0.5004666
 
+mean(abs(sims_redev_A$w)) # 0.5007057
+mean(abs(sims_redev_B$w)) # 0.5004665
+mean(abs(sims_redev_C$w)) # 0.5006133
+
+mean(abs(sims_newdev_A$w)) # 0.5004843
+mean(abs(sims_newdev_B$w)) # 0.500708
+mean(abs(sims_newdev_C$w)) # 0.5008376
+mean(abs(sims_newdev_D$w)) # 0.500463
+
 ##################################################################################################
 ##################################################################################################
 
@@ -230,37 +239,84 @@ dev.off()
 
 
 
-##### Sensitivity Analysis Code adapted from K. Sobocinski ##### 
+##### Sensitivity Analysis ##### 
+#Code adapted from K. Sobocinski 
 
 library(reshape2)
 library(ggplot2)
 
-#To extract the weight values in the accepted model runs:
-sims$edges
-head(sims$w)
-tail(sims$w)
-mean(abs(sims$w)) #0.5007
+#write a function to plot the outlier edge weights for a given simulation
+plot_outwts = function (sims) 
+{
+  print("plotting outlier weights")
+  weight <- as.data.frame(sims$w) #extract the weight values in the accepted model runs
+  wts <- reshape2::melt(weight)
+  colnames(wts)=c("Edge", "Value")
+  
+  edgemean <- as.data.frame(apply(sims$w, 2, mean)) #calculate weight mean for each edge
+  edgestdev <- as.data.frame(apply(sims$w, 2, sd)) #calculate weight stdev for each edge
+  lowerSD <- abs(edgemean[,1])-abs(edgestdev[,1])
+  upperSD <- abs(edgemean[,1])+abs(edgestdev[,1])
+  
+  edgenames <- as.data.frame(levels(wts$Edge)) 
+  edgesSD <- cbind(edgenames, abs(edgemean[,1]), lowerSD, upperSD)
+  colnames(edgesSD)=c("Edge", "Mean", "LowerSD", "UpperSD")
+  
+  #Pull out outliers (top/bottom 15 values) & reorder EdgesSD by mean
+  bottom <- edgesSD %>% dplyr::slice_min(Mean, n = 15)
+  top <- edgesSD %>% dplyr::slice_max(Mean, n = 15)
+  outliers <- rbind(top, bottom)
+  
+  #Plot all outliers (top/bottom 15 values)
+  ggplot(outliers, aes(x=Mean, y=reorder(Edge, Mean))) +
+    geom_errorbarh(data=outliers, aes(xmax=UpperSD, xmin=LowerSD), colour = "grey50") + 
+    ylab("Edge") +
+    xlab("Weight (mean +/- SD)") +
+    theme_bw() +
+    geom_point() +
+    geom_vline(xintercept=0, linetype="dotted") +
+    geom_vline(xintercept=1.0, linetype="dotted") +
+    geom_vline(xintercept=0.5, linetype="dotted") + theme(axis.text=element_text(size=12),
+                                                          axis.title=element_text(size=12,face="bold"))
+}
 
-is.matrix(sims$w) #True
-weight <- as.data.frame(sims$w)
-head(weight)
+plot_outwts(sims = sims_statquo)
+plot_outwts(sims = sims_moderate)
+plot_outwts(sims = sims_newdev_A)
+plot_outwts(sims = sims_newdev_B)
+plot_outwts(sims = sims_newdev_C)
+plot_outwts(sims = sims_newdev_D)
+plot_outwts(sims = sims_redev_A)
+plot_outwts(sims = sims_redev_B)
+plot_outwts(sims = sims_redev_C)
+
+
+##### Old sensitivity analysis code #####
+#To extract the weight values in the accepted model runs:
+sims_statquo$edges
+head(sims_statquo$w)
+tail(sims_statquo$w)
+
+is.matrix(sims_statquo$w) #True
+weight_statquo <- as.data.frame(sims_statquo$w)
+head(weight_statquo)
 #Check distributions of different nodes to see how variable they are
-hist(weight[,63])
+hist(weight_statquo[,10])
 
 #To assess the sensitivity of the weights
 #Extract edges and weights from simulations
-wts <- reshape2::melt(weight)
-colnames(wts)=c("Edge", "Value")
-head(wts)
+wts_statquo <- reshape2::melt(weight_statquo)
+colnames(wts_statquo)=c("Edge", "Value")
+head(wts_statquo)
 
-dim(sims$w) #10000 x 145 (145 linkages in the model)
+dim(sims_statquo$w) #10000 x 143 (143 linkages in the model)
 
 #Get means for each edge
-edgemean <- as.data.frame(apply(sims$w, 2, mean))
+edgemean <- as.data.frame(apply(sims_statquo$w, 2, mean))
 summary(edgemean)
-edgemin <- as.data.frame(apply(sims$w, 2, min))
-edgemax <- as.data.frame(apply(sims$w, 2, max))
-edgestdev <- as.data.frame(apply(sims$w, 2, sd))
+edgemin <- as.data.frame(apply(sims_statquo$w, 2, min))
+edgemax <- as.data.frame(apply(sims_statquo$w, 2, max))
+edgestdev <- as.data.frame(apply(sims_statquo$w, 2, sd))
 hist(abs(edgemean[,1]))
 hist(abs(edgemin[,1]))
 hist(abs(edgemax[,1]))
@@ -268,13 +324,13 @@ hist(abs(edgestdev[,1]))
 lowerSD <- abs(edgemean[,1])-abs(edgestdev[,1])
 upperSD <- abs(edgemean[,1])+abs(edgestdev[,1])
 
-edgenames <- as.data.frame(levels(wts$Edge)) 
+edgenames <- as.data.frame(levels(wts_statquo$Edge)) 
 edge.vals <- cbind(edgenames, abs(edgemean[,1]), abs(edgemin[,1]), 
                  abs(edgemax[,1]))
 
 #USe max and min values with mean
 head(edge.vals)
-dim(edge.vals) #145 linkaes in the model x 4 columns
+dim(edge.vals) #143 linkages in the model x 4 columns
 colnames(edge.vals)=c("Edge", "Mean", "Min", "Max")
 str(edge.vals)
 
@@ -299,13 +355,12 @@ ggplot(edgesSD, aes(x=Mean, y=reorder(Edge, Mean))) +
 
 #Pull out outliers (top/bottom 15 values)
 #Reorder EdgesSD by mean
-ro <- edgesSD[order(-edgesSD$Mean),]
-top <- ro[1:15,]
-bottom <- ro[131:145,]
+bottom <- edgesSD %>% dplyr::slice_min(Mean, n = 15)
+top <- edgesSD %>% dplyr::slice_max(Mean, n = 15)
 
 outliers <- rbind(top, bottom)
 
-#Plot all outliers
+#Plot all outliers (top/bottom 15 values)
 ggplot(outliers, aes(x=Mean, y=reorder(Edge, Mean))) +
   geom_errorbarh(data=outliers, aes(xmax=UpperSD, xmin=LowerSD), colour = "grey50") + 
   ylab("Edge") +
@@ -316,14 +371,6 @@ ggplot(outliers, aes(x=Mean, y=reorder(Edge, Mean))) +
   geom_vline(xintercept=1.0, linetype="dotted") +
   geom_vline(xintercept=0.5, linetype="dotted") + theme(axis.text=element_text(size=12),
                                                         axis.title=element_text(size=12,face="bold"))
-#Plot top (minus self-reg. loops) and bottom:
-ggplot(outliers[8:30,], aes(x=Mean, y=reorder(Edge, Mean))) +
-  geom_errorbarh(data=outliers[8:30,], aes(xmax=UpperSD, xmin=LowerSD), colour = "grey50") + 
-  ylab("Edge") +
-  xlab("Weight abs(mean +/- sd)") +
-  theme_bw() +
-  geom_point() +
-  geom_vline(xintercept=0.5, linetype="dotted")
 
 #To plot bottom (most sensitive edges only):
 ggplot(bottom, aes(x=Mean, y=reorder(Edge, Mean))) +
