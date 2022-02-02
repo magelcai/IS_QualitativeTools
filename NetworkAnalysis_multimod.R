@@ -15,7 +15,7 @@ library(here) #folder management
 
 
 ##### Load the Dia models #####
-statquo <- QPress::model.dia("./DiaModels/MultiMods/StatusQuo_3Sept2021_forR.dia")
+statquo <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/StatQuo_Jan2022_forR.dia")
 mod_redevB_newdevC <- QPress::model.dia("./DiaModels/MultiMods/Moderate_RedevB+NewDevC_3Sept2021_forR.dia") 
 
 redev_A <- QPress::model.dia("./DiaModels/MultiMods/RedevA_3Sept2021_forR.dia")
@@ -30,7 +30,7 @@ newdev_D <- QPress::model.dia("./DiaModels/MultiMods/NewDevD_3Sept2021_forR.dia"
 ## Examine unweighted adjacency matrices
 A_Statquo <- adjacency.matrix(statquo)
 A_Statquo
-write.csv(A, file = "Model_AdjMatrix.csv", row.names = FALSE) #save the matrix, ifn needed
+write.csv(A_Statquo, file = "StatusQuo_AdjMatrix.csv", row.names = FALSE) #save the matrix, ifn needed
 
 ## Enforce limitation (This is redundant with the self-limiting edges in the Dia model, if they are already included)
 statquo <- QPress::enforce.limitation(statquo)
@@ -147,10 +147,10 @@ mean(abs(sims_newdev_D$w)) # 0.500463
 
 # Extract the bits we need from the Status Quo Model
 edges <- sims_statquo$edges
-write.csv(edges, file = "Model_EdgesList.csv")
+write.csv(edges, file = "StatusQuo_EdgesList.csv")
 As <- sims_statquo$A
 nodes <- node.labels(edges)
-write.csv(nodes, file = "Model_NodesList.csv")
+write.csv(nodes, file = "StatusQuo_NodesList.csv")
 
 monitor <- c(rep(NA,length(nodes))) ## Don't enforce any required responses
 
