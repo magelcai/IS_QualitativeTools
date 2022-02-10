@@ -15,17 +15,18 @@ library(here) #folder management
 
 
 ##### Load the Dia models #####
-statquo <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/StatQuo_Jan2022_forR.dia")
-mod_redevB_newdevC <- QPress::model.dia("./DiaModels/MultiMods/Moderate_RedevB+NewDevC_3Sept2021_forR.dia") 
+statquo <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/StatusQuo_Jan2022_forR.dia")
+moderate <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/Moderate_Jan2022_forR.dia") 
 
-redev_A <- QPress::model.dia("./DiaModels/MultiMods/RedevA_3Sept2021_forR.dia")
-redev_B <- QPress::model.dia("./DiaModels/MultiMods/RedevB_3Sept2021_forR.dia") 
-redev_C <- QPress::model.dia("./DiaModels/MultiMods/RedevC_3Sept2021_forR.dia") 
+newdev_A <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/NewDevA_Jan2022_forR.dia") 
+newdev_B <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/NewDevB_Jan2022_forR.dia") 
+newdev_C <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/NewDevC_Jan2022_forR.dia") 
+newdev_D <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/NewDevD_Jan2022_forR.dia") 
 
-newdev_A <- QPress::model.dia("./DiaModels/MultiMods/NewDevA_3Sept2021_forR.dia") 
-newdev_B <- QPress::model.dia("./DiaModels/MultiMods/NewDevB_3Sept2021_forR.dia") 
-newdev_C <- QPress::model.dia("./DiaModels/MultiMods/NewDevC_3Sept2021_forR.dia") 
-newdev_D <- QPress::model.dia("./DiaModels/MultiMods/NewDevD_3Sept2021_forR.dia") 
+redev_E <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/RedevE_Jan2022_forR.dia")
+redev_F <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/RedevF_Jan2022_forR.dia") 
+redev_G <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/RedevG_Jan2022_forR.dia") 
+redev_H <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/RedevH_Jan2022_forR.dia") 
 
 ## Examine unweighted adjacency matrices
 A_Statquo <- adjacency.matrix(statquo)
@@ -34,16 +35,17 @@ write.csv(A_Statquo, file = "StatusQuo_AdjMatrix.csv", row.names = FALSE) #save 
 
 ## Enforce limitation (This is redundant with the self-limiting edges in the Dia model, if they are already included)
 statquo <- QPress::enforce.limitation(statquo)
-moderate <- QPress::enforce.limitation(mod_redevB_newdevC)
-
-redev_A <- QPress::enforce.limitation(redev_A)
-redev_B <- QPress::enforce.limitation(redev_B)
-redev_C <- QPress::enforce.limitation(redev_C)
+moderate <- QPress::enforce.limitation(moderate)
 
 newdev_A <- QPress::enforce.limitation(newdev_A)
 newdev_B <- QPress::enforce.limitation(newdev_B)
 newdev_C <- QPress::enforce.limitation(newdev_C)
 newdev_D <- QPress::enforce.limitation(newdev_D)
+
+redev_E <- QPress::enforce.limitation(redev_E)
+redev_F <- QPress::enforce.limitation(redev_F)
+redev_G <- QPress::enforce.limitation(redev_G)
+redev_H <- QPress::enforce.limitation(redev_H)
 
 ##### Simulations #####
 #If model simulations already exist, load them
@@ -51,70 +53,65 @@ newdev_D <- QPress::enforce.limitation(newdev_D)
 sims_statquo <- readRDS("Sims_StatusQuo_10000_2021-09-03.rds")
 sims_moderate <- readRDS("Sims_Moderate_10000_2021-09-03.rds")
 
-sims_redev_A <- readRDS("Sims_redev_A_10000_2021-09-03.rds")
-sims_redev_B <- readRDS("Sims_redev_B_10000_2021-09-03.rds")
-sims_redev_C <- readRDS("Sims_redev_C_10000_2021-09-03.rds")
-
 sims_newdev_A <- readRDS("Sims_newdev_A_10000_2021-09-03.rds")
 sims_newdev_B <- readRDS("Sims_newdev_B_10000_2021-09-03.rds")
 sims_newdev_C <- readRDS("Sims_newdev_C_10000_2021-09-03.rds")
 sims_newdev_D <- readRDS("Sims_newdev_D_10000_2021-09-03.rds")
 
+sims_redev_E <- readRDS("Sims_newdev_A_10000_2021-09-03.rds")
+sims_redev_F <- readRDS("Sims_newdev_B_10000_2021-09-03.rds")
+sims_redev_G <- readRDS("Sims_newdev_C_10000_2021-09-03.rds")
+sims_redev_H <- readRDS("Sims_newdev_D_10000_2021-09-03.rds")
+
 #If model simulation does not exist, simulate and save!
 n_sims <- 10000 #number of accepted simulations requested
 
 sims_statquo <- QPress::system.simulate(n_sims, statquo)
-sims_statquo$total #66797
+sims_statquo$total #66346
 
 sims_moderate <- QPress::system.simulate(n_sims, moderate)
-sims_moderate$total #65625
-
-sims_redev_A <- QPress::system.simulate(n_sims, redev_A)
-sims_redev_A$total #66061
-sims_redev_B <- QPress::system.simulate(n_sims, redev_B)
-sims_redev_B$total #66876
-sims_redev_C <- QPress::system.simulate(n_sims, redev_C)
-sims_redev_C$total #66834
+sims_moderate$total #66666
 
 sims_newdev_A <- QPress::system.simulate(n_sims, newdev_A)
-sims_newdev_A$total #65825
+sims_newdev_A$total #65507
 sims_newdev_B <- QPress::system.simulate(n_sims, newdev_B)
-sims_newdev_B$total #66596
+sims_newdev_B$total #66231
 sims_newdev_C <- QPress::system.simulate(n_sims, newdev_C)
-sims_newdev_C$total #66905
+sims_newdev_C$total #65372
 sims_newdev_D <- QPress::system.simulate(n_sims, newdev_D)
-sims_newdev_D$total #33130
+sims_newdev_D$total #32904
+
+sims_redev_E <- QPress::system.simulate(n_sims, redev_E)
+sims_redev_E$total #66698
+sims_redev_F <- QPress::system.simulate(n_sims, redev_F)
+sims_redev_F$total #66860
+sims_redev_G <- QPress::system.simulate(n_sims, redev_G)
+sims_redev_G$total #65907
+sims_redev_H <- QPress::system.simulate(n_sims, redev_H)
+sims_redev_H$total #65929
 
 ##### Save Simulations #####
 saveRDS(sims_statquo, file = paste("Sims_", "StatusQuo_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 saveRDS(sims_moderate, file = paste("Sims_", "Moderate_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-
-saveRDS(sims_redev_A, file = paste("Sims_", "redev_A_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-saveRDS(sims_redev_B, file = paste("Sims_", "redev_B_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
-saveRDS(sims_redev_C, file = paste("Sims_", "redev_C_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 
 saveRDS(sims_newdev_A, file = paste("Sims_", "newdev_A_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 saveRDS(sims_newdev_B, file = paste("Sims_", "newdev_B_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 saveRDS(sims_newdev_C, file = paste("Sims_", "newdev_C_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 saveRDS(sims_newdev_D, file = paste("Sims_", "newdev_D_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 
+saveRDS(sims_redev_E, file = paste("Sims_", "redev_E_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+saveRDS(sims_redev_F, file = paste("Sims_", "redev_F_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+saveRDS(sims_redev_G, file = paste("Sims_", "redev_G_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+saveRDS(sims_redev_H, file = paste("Sims_", "redev_H_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+
 
 ##### Perturbations #####
 #using custom exploratory widget & print results from QPressFunctions.R
 #Save the pos/neg sims by copying/pasting last output into Excel
 
-# Combined Urban + rural (+ New Development, + Redevelopment)
-impact.barplot(sim = sims_statquo)
-impact.barplot(sim = sims_moderate)
-
-# Status Quo Individual Strategies
-impact.barplot(sim = sims_statquo) # (+ New Development)
-impact.barplot(sim = sims_statquo) # (+ Redevelopment)
-
-# Urban Strategies only (+ Redevelopment) 
-impact.barplot(sim = sims_redev_A)
-impact.barplot(sim = sims_redev_B) 
-impact.barplot(sim = sims_redev_C) 
+# Status Quo: urban vs. rural
+impact.barplot(sim = sims_statquo) # (+ New Development, - Redevelopment)
+impact.barplot(sim = sims_statquo) # (+ Redevelopment, - New Development)
 
 # Rural Strategies only (+ New Development) 
 impact.barplot(sim = sims_newdev_A)
@@ -122,22 +119,32 @@ impact.barplot(sim = sims_newdev_B)
 impact.barplot(sim = sims_newdev_C) 
 impact.barplot(sim = sims_newdev_D) 
 
+# Urban Strategies only (+ Redevelopment) 
+impact.barplot(sim = sims_redev_E)
+impact.barplot(sim = sims_redev_F) 
+impact.barplot(sim = sims_redev_G) 
+impact.barplot(sim = sims_redev_H)
+
+# Coordinated Urban + rural (+ New Development, + Redevelopment)
+impact.barplot(sim = sims_statquo)
+impact.barplot(sim = sims_moderate)
 
 #Examine weight values in the accepted model runs:
 sims_statquo$edges
-mean(abs(sims_statquo$w)) # 0.5008522
+mean(abs(sims_statquo$w)) # 0.5004479
 
 sims_moderate$edges
-mean(abs(sims_moderate$w)) # 0.5004666
+mean(abs(sims_moderate$w)) # 0.5005908
 
-mean(abs(sims_redev_A$w)) # 0.5007057
-mean(abs(sims_redev_B$w)) # 0.5004665
-mean(abs(sims_redev_C$w)) # 0.5006133
+mean(abs(sims_newdev_A$w)) # 0.5006354
+mean(abs(sims_newdev_B$w)) # 0.500851
+mean(abs(sims_newdev_C$w)) # 0.5007896
+mean(abs(sims_newdev_D$w)) # 0.5005958
 
-mean(abs(sims_newdev_A$w)) # 0.5004843
-mean(abs(sims_newdev_B$w)) # 0.500708
-mean(abs(sims_newdev_C$w)) # 0.5008376
-mean(abs(sims_newdev_D$w)) # 0.500463
+mean(abs(sims_redev_E$w)) # 0.5007229
+mean(abs(sims_redev_F$w)) # 0.5006543
+mean(abs(sims_redev_G$w)) # 0.5005669
+mean(abs(sims_redev_H$w)) # 0.5004286
 
 ##################################################################################################
 ##################################################################################################
@@ -239,7 +246,7 @@ dev.off()
 
 
 
-##### Sensitivity Analysis ##### 
+##### Edge Weight "Sensitivity" Analysis ##### 
 #Code adapted from K. Sobocinski 
 
 library(reshape2)
