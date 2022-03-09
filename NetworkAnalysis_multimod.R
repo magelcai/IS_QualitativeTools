@@ -50,18 +50,18 @@ redev_H <- QPress::enforce.limitation(redev_H)
 ##### Simulations #####
 #If model simulations already exist, load them
 
-sims_statquo <- readRDS("Sims_StatusQuo_10000_2021-09-03.rds")
-sims_moderate <- readRDS("Sims_Moderate_10000_2021-09-03.rds")
+sims_statquo <- readRDS("Sims_StatusQuo_10000_2022-02-09.rds")
+sims_moderate <- readRDS("Sims_Moderate_10000_2022-02-09.rds")
 
-sims_newdev_A <- readRDS("Sims_newdev_A_10000_2021-09-03.rds")
-sims_newdev_B <- readRDS("Sims_newdev_B_10000_2021-09-03.rds")
-sims_newdev_C <- readRDS("Sims_newdev_C_10000_2021-09-03.rds")
-sims_newdev_D <- readRDS("Sims_newdev_D_10000_2021-09-03.rds")
+sims_newdev_A <- readRDS("Sims_newdev_A_10000_2022-02-09.rds")
+sims_newdev_B <- readRDS("Sims_newdev_B_10000_2022-02-09.rds")
+sims_newdev_C <- readRDS("Sims_newdev_C_10000_2022-02-09.rds")
+sims_newdev_D <- readRDS("Sims_newdev_D_10000_2022-02-09.rds")
 
-sims_redev_E <- readRDS("Sims_newdev_A_10000_2021-09-03.rds")
-sims_redev_F <- readRDS("Sims_newdev_B_10000_2021-09-03.rds")
-sims_redev_G <- readRDS("Sims_newdev_C_10000_2021-09-03.rds")
-sims_redev_H <- readRDS("Sims_newdev_D_10000_2021-09-03.rds")
+sims_redev_E <- readRDS("Sims_redev_E_10000_2022-02-09.rds")
+sims_redev_F <- readRDS("Sims_redev_F_10000_2022-02-09.rds")
+sims_redev_G <- readRDS("Sims_redev_G_10000_2022-02-09.rds")
+sims_redev_H <- readRDS("Sims_redev_H_10000_2022-02-09.rds")
 
 #If model simulation does not exist, simulate and save!
 n_sims <- 10000 #number of accepted simulations requested
@@ -114,12 +114,14 @@ impact.barplot(sim = sims_statquo) # (+ New Development, - Redevelopment)
 impact.barplot(sim = sims_statquo) # (+ Redevelopment, - New Development)
 
 # Rural Strategies only (+ New Development) 
+impact.barplot(sim = sims_statquo)
 impact.barplot(sim = sims_newdev_A)
 impact.barplot(sim = sims_newdev_B) 
 impact.barplot(sim = sims_newdev_C) 
 impact.barplot(sim = sims_newdev_D) 
 
 # Urban Strategies only (+ Redevelopment) 
+impact.barplot(sim = sims_statquo)
 impact.barplot(sim = sims_redev_E)
 impact.barplot(sim = sims_redev_F) 
 impact.barplot(sim = sims_redev_G) 
@@ -293,9 +295,10 @@ plot_outwts(sims = sims_newdev_A)
 plot_outwts(sims = sims_newdev_B)
 plot_outwts(sims = sims_newdev_C)
 plot_outwts(sims = sims_newdev_D)
-plot_outwts(sims = sims_redev_A)
-plot_outwts(sims = sims_redev_B)
-plot_outwts(sims = sims_redev_C)
+plot_outwts(sims = sims_redev_E)
+plot_outwts(sims = sims_redev_F)
+plot_outwts(sims = sims_redev_G)
+plot_outwts(sims = sims_redev_H)
 
 
 ##### Old sensitivity analysis code #####
