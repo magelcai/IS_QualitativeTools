@@ -28,6 +28,9 @@ redev_F <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/RedevF_Jan2022_forR.
 redev_G <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/RedevG_Jan2022_forR.dia") 
 redev_H <- QPress::model.dia("./DiaModels/MultiMods_Jan2022/RedevH_Jan2022_forR.dia") 
 
+statquo_harvey <- QPress::model.dia("./DiaModels/StatusQuo_Jul2022_forR_HarveyTrial.dia") 
+moderate_harvey <- QPress::model.dia("./DiaModels/Moderate_Jul2022_forR_HarveyTrial.dia") 
+
 ## Examine unweighted adjacency matrices
 A_Statquo <- adjacency.matrix(statquo)
 A_Statquo
@@ -46,6 +49,9 @@ redev_E <- QPress::enforce.limitation(redev_E)
 redev_F <- QPress::enforce.limitation(redev_F)
 redev_G <- QPress::enforce.limitation(redev_G)
 redev_H <- QPress::enforce.limitation(redev_H)
+
+statquo_harvey <- QPress::enforce.limitation(statquo_harvey)
+moderate_harvey <- QPress::enforce.limitation(moderate_harvey)
 
 ##### Simulations #####
 #If model simulations already exist, load them
@@ -90,6 +96,11 @@ sims_redev_G$total #65907
 sims_redev_H <- QPress::system.simulate(n_sims, redev_H)
 sims_redev_H$total #65929
 
+sims_statquo_harvey <- QPress::system.simulate(n_sims, statquo_harvey)
+sims_statquo_harvey$total #104423
+sims_moderate_harvey <- QPress::system.simulate(n_sims, moderate_harvey)
+sims_moderate_harvey$total #102063
+
 ##### Save Simulations #####
 saveRDS(sims_statquo, file = paste("Sims_", "StatusQuo_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 saveRDS(sims_moderate, file = paste("Sims_", "Moderate_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
@@ -104,6 +115,8 @@ saveRDS(sims_redev_F, file = paste("Sims_", "redev_F_", n_sims, "_", Sys.Date(),
 saveRDS(sims_redev_G, file = paste("Sims_", "redev_G_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 saveRDS(sims_redev_H, file = paste("Sims_", "redev_H_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 
+saveRDS(sims_statquo_harvey, file = paste("Sims_", "statquo_harvey_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
+saveRDS(sims_moderate_harvey, file = paste("Sims_", "moderate_harvey_", n_sims, "_", Sys.Date(), ".rds", sep = ""))
 
 ##### Perturbations #####
 #using custom exploratory widget & print results from QPressFunctions.R
@@ -130,6 +143,9 @@ impact.barplot(sim = sims_redev_H)
 # Coordinated Urban + rural (+ New Development, + Redevelopment)
 impact.barplot(sim = sims_statquo)
 impact.barplot(sim = sims_moderate)
+
+impact.barplot(sim = sims_statquo_harvey)
+impact.barplot(sim = sims_moderate_harvey)
 
 #Examine weight values in the accepted model runs:
 sims_statquo$edges
